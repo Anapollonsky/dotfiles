@@ -27,7 +27,7 @@
 ;   packages))
 
 
-;(ensure-package-installed  'magit 'save-place 'helm 'projectile 'helm-projectile 'speedbar 'uniquify 'undo-tree 'company 'xcscope 'nlinum 'flycheck 'rainbow-delimiters 'ace-jump-mode 'multi-term) 
+;(ensure-package-installed  'magit 'save-place 'helm 'projectile 'helm-projectile 'speedbar 'uniquify 'undo-tree 'company 'xcscope 'nlinum 'flycheck 'rainbow-delimiters 'ace-jump-mode 'multi-term 'yasnippet) 
 
 ;; activate installed packages
 (package-initialize)
@@ -123,6 +123,10 @@ line instead."
 ;(icy-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; templating
+(require 'yasnippet)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
 (require 'helm-config)
 
@@ -215,6 +219,11 @@ line instead."
 (require 'company)
 ;;(add-to-list 'company-c-headers-path-system "/usr/include/c++/4.8/")
 (add-hook 'after-init-hook 'global-company-mode)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; more autocompletion
+(require 'hippie-exp)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; speedbar
