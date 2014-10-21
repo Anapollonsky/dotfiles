@@ -111,6 +111,20 @@ line instead."
 (when (fboundp 'global-hl-line-mode)
   (global-hl-line-mode t)) ;; turn it on for all modes by default
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; email setup-email
+(setq gnus-select-method '(nnimap "gmail"
+				  (nnimap-address "imap.gmail.com")   ; it could also be imap.googlemail.com if that's your server.
+				  (nnimap-server-port 993)
+				  (nnimap-stream ssl)))
+
+(defvar smtp-accounts
+'(
+(ssl "anapollonsky@gmail.com" "smtp.gmail.com"
+587 "anapollonsky@gmail.com@gmail.com" "vo1naimir")
+ ))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; saveplace: save location in file when saving files
 (require 'saveplace)                   ;; get the package
