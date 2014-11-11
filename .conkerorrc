@@ -1,0 +1,215 @@
+////////////////////////////////////////////////////////////////////////////////
+// .conkerorrc , Andrew Apollonsky
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Custom Methods
+
+//This is a version of switch-to-buffer that displays the list of completions
+//in last-visited (temporal) order rather than spatial.
+//Without entering any text, it will act to switch to the last buffer
+//displayed (though that behavior is identical to the stock switch-to-buffer). 
+interactive("switch-to-recent-buffer",
+            "Prompt for a buffer and switch to it, displaying the list in last-visited order.",
+            function (I) {
+                switch_to_buffer(
+                    I.window,
+                    (yield I.minibuffer.read_buffer(
+                        $prompt = "Switch to buffer:",
+                        $buffers = I.window.buffers.buffer_history,
+                        $default = (I.window.buffers.count > 1 ?
+                                    I.window.buffers.buffer_history[1] :
+                                    I.buffer))));
+            });
+
+// The following code remembers all urls of buffers that you close during a session
+// and provides the command `revive-buffer' to reopen them. Restores history.
+
+var kill_buffer_original = kill_buffer_original || kill_buffer;
+var killed_buffer_urls = [];
+var killed_buffer_histories = [];
+
+//  remember_killed_buffer 
+kill_buffer = function (buffer, force) {
+    var hist = buffer.web_navigation.sessionHistory;
+    if (buffer.display_uri_string && hist) {
+        killed_buffer_histories.push(hist);
+        killed_buffer_urls.push(buffer.display_uri_string);
+    }
+    kill_buffer_original(buffer,force);
+};
+
+interactive("revive-buffer",
+            "Loads url from a previously killed buffer",
+            function restore_killed_buffer (I) {
+                if (killed_buffer_urls.length !== 0) {
+                    var url = yield I.minibuffer.read(
+                        $prompt = "Restore killed url:",
+                        $completer = new all_word_completer($completions = killed_buffer_urls),
+                        $default_completion = killed_buffer_urls[killed_buffer_urls.length - 1],
+                        $auto_complete = "url",
+                        $auto_complete_initial = true,
+                        $auto_complete_delay = 0,
+                        $require_match = true);
+                    var window = I.window;
+                    var creator = buffer_creator(content_buffer);
+                    var idx = killed_buffer_urls.indexOf(url);
+                    // Create the buffer
+                    var buf = creator(window, null);
+                    // Recover the history
+                    buf.web_navigation.sessionHistory = killed_buffer_histories[idx];
+                    // This line may seem redundant, but it's necessary.
+                    var original_index = buf.web_navigation.sessionHistory.index;
+                    buf.web_navigation.gotoIndex(original_index);
+                    // Focus the new tab
+                    window.buffers.current = buf;
+                    // Remove revived from cemitery
+                    killed_buffer_urls.splice(idx,1);
+                    killed_buffer_histories.splice(idx,1);
+                } else {
+                    I.window.minibuffer.message("No killed buffer urls");
+                }
+            });
+
+////////////////////////////////////////
+// Styling
+
+// Bigger Hint Numbers
+register_user_stylesheet(
+    "data:text/css," +
+        escape(
+            "@namespace url(\"http://www.w3.org/1999/xhtml\");\n" +
+                "span.__conkeror_hint {\n"+
+                "  font-size: 13px !important;\n"+
+                "  line-height: 13px !important;\n"+
+                "}"));
+
+////////////////////////////////////////
+// Basic configuration
+
+hint_digits="abcdefghijklmnopqrstuvwxyz";
+
+// auto completion in the minibuffer
+minibuffer_auto_complete_default = true;
+url_completion_use_history = true; // should work since bf05c87405
+url_completion_use_bookmarks = true;
+
+// we don't need a clock
+remove_hook("mode_line_hook", mode_line_adder(clock_widget));
+
+// Tabs
+require("new-tabs.js");
+
+// Open Middle-Clicked Links in New Buffers
+require("clicks-in-new-buffer.js");
+clicks_in_new_buffer_target = OPEN_NEW_BUFFER_BACKGROUND; // Now buffers open in background.
+
+// Bind Number Keys to Switch to Buffers 1-10
+function define_switch_buffer_key (key, buf_num) {
+    define_key(default_global_keymap, key,
+               function (I) {
+                   switch_to_buffer(I.window,
+                                    I.window.buffers.get_buffer(buf_num));
+               });
+}
+for (let i = 0; i < 10; ++i) {
+    define_switch_buffer_key(String((i+1)%10), i);
+}
+
+////////////////////////////////////////
+// Keybindings
+define_key(content_buffer_normal_keymap, "f", "follow");
+define_key(content_buffer_normal_keymap, "C-f", "follow-new-buffer");
+define_key(content_buffer_normal_keymap, "M-f", "follow-new-buffer-background");
+define_key(content_buffer_normal_keymap, "M-left", "buffer-previous");
+define_key(content_buffer_normal_keymap, "M-right", "buffer-next");
+define_key(content_buffer_normal_keymap, "C-left", "back");
+define_key(content_buffer_normal_keymap, "C-right", "forward");
+define_key(content_buffer_normal_keymap, "C-up", "cmd_scrollPageUp");
+define_key(content_buffer_normal_keymap, "C-down", "cmd_scrollPageDown");
+define_key(default_global_keymap, "C-T", "revive-buffer");
+//define_key(content_buffer_normal_keymap, "C-x k", "kill-current-buffer");
+define_key(content_buffer_normal_keymap, "t", "find-url");
+define_key(content_buffer_normal_keymap, "C-t", "find-url-new-buffer");
+//define_key(content_buffer_normal_keymap, "A", "bookmark");
+//define_key(content_buffer_normal_keymap, "B", "list-bookmarks");
+//define_key(default_global_keymap, "C-x b", "switch-to-recent-buffer");
+define_key(default_global_keymap, "w", "revive-buffer");
+define_key(default_global_keymap, "M-b", "switch-to-recent-buffer");
+
+// Webjumps
+define_webjump("g",   "http://www.google.com/search?q=%s");
+
+////////////////////////////////////////////////////////////////////////////////
+// Interface
+
+////////////////////////////////////////
+// Mode-Line
+// http://conkeror.org/ModeLine
+
+// buttons
+load_paths.unshift("chrome://conkeror-contrib/content/");
+require("mode-line-buttons.js");
+mode_line_add_buttons(standard_mode_line_buttons, true);
+
+// download status
+add_hook("mode_line_hook", mode_line_adder(downloads_status_widget));
+
+// buffer information
+add_hook("mode_line_hook", mode_line_adder(buffer_count_widget), true);
+
+////////////////////////////////////////
+// Focus-Stealing
+// http://conkeror.org/Focus
+
+// unfocus unless input 20ms ago
+require("block-content-focus-change.js");
+
+// remove all focus-changes except in-line
+function focusblock (buffer) {
+    var s = Components.utils.Sandbox(buffer.top_frame);
+    s.document = buffer.document.wrappedJSObject;
+    Components.utils.evalInSandbox(
+        "(function () {\
+function nothing () {}\
+if (! document.forms)\
+return;\
+for (var i = 0, nforms = document.forms.length; i < nforms; i++) {\
+for (var j = 0, nels = document.forms[i].elements.length; j < nels; j++)\
+document.forms[i].elements[j].focus = nothing;\
+}\
+})();",
+        s);
+}
+add_hook('content_buffer_progress_change_hook', focusblock);
+
+////////////////////////////////////////
+// Key Thievery
+// http://conkeror.org/KeyKill
+
+require("key-kill");
+key_kill_mode.test.push(build_url_regexp($domain = "github"));
+key_kill_mode.test.push(build_url_regexp($domain = "stackoverflow"));
+key_kill_mode.test.push(/\/\/.*slashdot\.org\//);
+
+////////////////////////////////////////////////////////////////////////////////
+// Misc
+
+// load urls from the command line in new buffers instead
+// of new windows.
+url_remoting_fn = load_url_in_new_buffer;
+
+// load download buffers in the background in the current
+// window, instead of in new windows.
+download_buffer_automatic_open_target = OPEN_NEW_BUFFER_BACKGROUND;
+
+////////////////////////////////////////
+// Page-Modes
+// Activate Reddit
+require("reddit");
+
+// Deactivate Stack-Overflow
+page_mode_deactivate(stackexchange_mode);
+
+// let xkcd-mode put the funny alt text into the page.
+xkcd_add_title = true;
