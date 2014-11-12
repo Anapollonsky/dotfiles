@@ -9,8 +9,8 @@
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
-;; (setq url-proxy-services '(("no_proxy" . "work\\.com")
-;;                            ("http" . "global.proxy.lucent.com:8000")))
+;;(setq url-proxy-services '(("no_proxy" . "work\\.com")
+;;                           ("http" . "global.proxy.lucent.com:8000")))
 
 (setq package-enable-at-startup nil)
 
@@ -36,16 +36,6 @@
 ;; activate installed packages
 (package-initialize)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; global keybindings 
-(global-set-key (kbd "RET")         'newline-and-indent)
-(global-set-key (kbd "C-<f4>")      'kill-buffer-and-window)
-(global-set-key (kbd "<delete>")    'delete-char)  ; delete == delete
-(global-set-key (kbd "M-g")         'goto-line)    ; M-g  'goto-line
-(global-set-key (kbd "M-G")         'goto-char)    ; M-g  'goto-char
-(global-set-key (kbd "C-x C-r")     'comment-or-uncomment-region) ;;
-
-(key-chord-define-global "jj" 'kill-buffer)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; general settings
 (setq x-select-enable-clipboard t        ;; copy-paste should work ...
@@ -81,8 +71,6 @@
       (kill-new filename)
       (message "Copied buffer file name '%s' to the clipboard." filename))))
 
-(global-set-key (kbd "C-c s h") 'prelude-copy-file-name-to-clipboard)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Key-chord
 (require 'key-chord)
@@ -90,6 +78,10 @@
 (setq key-chord-two-keys-delay .01)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Language-Specific packages
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; CEDET
+;;(require 'CEDET)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; SLIME
@@ -120,6 +112,17 @@
 ;; global packages
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; dired+
+;; (require 'dired+)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; perspective
+(require 'perspective)
+(persp-mode 1)
+(require 'persp-projectile)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; show white space characters
 (require 'whitespace)
 (setq whitespace-style
@@ -144,19 +147,12 @@
 (when (fboundp 'winner-mode)
   (winner-mode 1))
 
-(global-set-key (kbd "C-c C-<left>") 'winner-undo)
-(global-set-key (kbd "C-c C-<right>") 'winner-redo)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; saveplace: save location in file when saving files
 (require 'saveplace)                   ;; get the package
 (setq save-place-file "~/.emacs.d/cache/saveplace")
 (setq-default save-place t)            ;; activate it for all buffers
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; re-builder
-(require 're-builder)
-(setq reb-re-syntax 'string)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Navigate Emacs windows with shift+arrows
@@ -171,8 +167,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Semantic expansion
 (require 'expand-region)
-(global-set-key (kbd "C-.") 'er/expand-region)
-(global-set-key (kbd "C-,") 'er/contract-region)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Smooth Scrolling
@@ -188,9 +182,6 @@
 ;; Hotkeys for major modes
 ;; A quick major mode help with discover-my-major
 (require 'discover-my-major)
-(global-unset-key (kbd "C-h h"))        ; original "C-h h" displays "hello world" in different languages
-;(define-key map (kbd "C-c") nil)
-;(define-key 'help-command (kbd "C-c h") 'discover-my-major)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; directory comparison and tree-based browser
@@ -233,8 +224,7 @@
 ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
 ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
 ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
-(global-set-key (kbd "C-c h") 'helm-command-prefix)
-(global-unset-key (kbd "C-x c"))
+
 
 (when (executable-find "curl")
   (setq helm-google-suggest-use-curl-p t))
@@ -248,16 +238,6 @@
       helm-ff-file-name-history-use-recentf t)
 
 ;; Specific helm hotkeys
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "M-y") 'helm-show-kill-ring)
-(global-set-key (kbd "C-x b") 'helm-mini)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "C-c C-s") 'helm-ff-do-grep)
-(global-set-key (kbd "C-c m") 'helm-man-woman)
-(global-set-key (kbd "C-c f") 'helm-find)
-(global-set-key (kbd "C-c l") 'helm-locate)
-(global-set-key (kbd "C-c o") 'helm-occur)
-(global-set-key (kbd "C-c h t") 'helm-top)
 
 ;(add-to-list 'helm-sources-using-default-as-input 'helm-source-man-pages)
 
@@ -269,26 +249,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;Navigation
 (require 'xcscope)
-(global-set-key (kbd "C-c z") 'cscope-minor-mode)
 (add-hook 'c-mode-hook 'cscope-minor-mode)
 (add-hook 'c++-mode-hook 'cscope-minor-mode)
 (setq cscope-initial-directory "/vobs/")
-(define-key cscope-minor-mode-keymap (kbd "C-c s q") 'cscope-pop-mark)
 
 ;; Ggtags
 (require 'ggtags)
-(global-set-key (kbd "C-c x") 'ggtags-mode)
 ;; (add-hook 'c-mode-common-hook
 ;;           (lambda ()
 ;;             (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'asm-mode)
 ;;               (ggtags-mode 1))))
 
-(define-key ggtags-mode-map (kbd "C-c s g") 'ggtags-find-tag-dwim)
-(define-key ggtags-mode-map (kbd "C-c s d") 'ggtags-find-definition)
-(define-key ggtags-mode-map (kbd "C-c s f") 'ggtags-find-file)
-(define-key ggtags-mode-map (kbd "C-c s s") 'ggtags-find-reference)
-(define-key ggtags-mode-map (kbd "C-c s q") 'ggtags-prev-mark)
-(define-key ggtags-mode-map (kbd "C-c s w") 'ggtags-next-mark)
 
 (defun create-tags (dir-name)
  "Create tags file."
@@ -298,7 +269,6 @@
 
 ;; Helm gtags
 (require 'helm-gtags)
-(global-set-key (kbd "C-c c") 'helm-gtags-mode)
 ;; ;;Enable helm-gtags-mode
 ;; (add-hook 'dired-mode-hook 'helm-gtags-mode)
 ;; (add-hook 'eshell-mode-hook 'helm-gtags-mode)
@@ -306,17 +276,6 @@
 ;; (add-hook 'c++-mode-hook 'helm-gtags-mode)
 ;; (add-hook 'asm-mode-hook 'helm-gtags-mode)
 
-(define-key helm-gtags-mode-map (kbd "C-c s v") 'helm-gtags-select)
-(define-key helm-gtags-mode-map (kbd "C-c s g") 'helm-gtags-dwim)
-(define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
-(define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
-(define-key helm-gtags-mode-map (kbd "C-c s t") 'helm-gtags-find-tag)
-(define-key helm-gtags-mode-map (kbd "C-c s s") 'helm-gtags-find-symbol)
-(define-key helm-gtags-mode-map (kbd "C-c s f") 'helm-gtags-find-files)
-;;(define-key helm-gtags-mode-map (kbd "C-c s q") 'helm-gtags-pop-stack)
-(define-key helm-gtags-mode-map (kbd "C-c s r") 'helm-gtags-resume)
-(define-key helm-gtags-mode-map (kbd "C-c s w") 'helm-gtags-next-history)
-(define-key helm-gtags-mode-map (kbd "C-c s q") 'helm-gtags-previous-history)
 
 (setq
 helm-gtags-ignore-case t
@@ -350,24 +309,19 @@ helm-gtatgs-path-style 'relative
 (require 'company)
 ;;(add-to-list 'company-c-headers-path-system "/usr/include/c++/4.8/")
 (add-hook 'after-init-hook 'global-company-mode)
-;; (global-set-key "\t" 'company-complete-common)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; more autocompletion
 (require 'hippie-exp)
-(global-set-key "\M- " 'hippie-expand)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; org-mode
 (require 'org)
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; speedbar
 (require 'speedbar)
 ;;(require 'sr-speedbar)
-;;(global-set-key (kbd "s-s") 'sr-speedbar-toggle)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Treat undo as a tree
@@ -413,14 +367,10 @@ helm-gtatgs-path-style 'relative
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ace jump mode major function
 (require 'ace-jump-mode)
-    (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+
 (eval-after-load "ace-jump-mode"
   '(ace-jump-mode-enable-mark-sync))
-(key-chord-define-global "jj" 'ace-jump-word-mode)
-(key-chord-define-global "jl" 'ace-jump-line-mode)
-(key-chord-define-global "jk" 'ace-jump-char-mode)
 
-;;(define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; syntax checking
@@ -433,17 +383,15 @@ helm-gtatgs-path-style 'relative
 ;; Git
 (require 'magit)
 (autoload 'magit-status "magit" nil t)
-(define-key global-map (kbd "C-c g") 'magit-status)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Matching bracket coloring
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ibuffer
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; ibuffer
 (require 'ibuffer)
-(define-key global-map (kbd "C-x C-b") 'ibuffer)
 (setq ibuffer-saved-filter-groups
   (quote (("default"      
             ("Org" ;; all org-related buffers
@@ -457,16 +405,19 @@ helm-gtatgs-path-style 'relative
             ("Vobs"
               (filename . "/vobs/"))
             ("Scripts"
-              (filename . "/home/aapollon/scripts"))))))
+	     (filename . "/home/aapollon/scripts"))
+	    ("Manpages"
+	     (mode . Man))))))
 
 (add-hook 'ibuffer-mode-hook
   (lambda ()
     (ibuffer-switch-to-saved-filter-groups "default")))
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ;; Move line/regions up or down
-;; (require 'move-text)
-;; (global-set-key [M-S-up] 'move-text-up)
-;; (global-set-key [M-S-down] 'move-text-down)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; powerline
+(require 'powerline)
+;; (powerline-vim-theme)
+(powerline-default-theme)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Drag stuff
@@ -506,3 +457,86 @@ helm-gtatgs-path-style 'relative
 ;; ;; (setq send-mail-function 'smtpmail-send-it)
 
 (load-theme 'apples-gray t)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; global keybindings 
+(global-unset-key (kbd "C-x c"))
+(global-unset-key (kbd "C-c h"))
+
+(key-chord-define-global "bb"		'kill-buffer)
+(key-chord-define-global "jj"		'ace-jump-word-mode)
+(key-chord-define-global "jl"		'ace-jump-line-mode)
+(key-chord-define-global "jk"		'ace-jump-char-mode)
+(key-chord-define-global "qw"	'hippie-expand)
+
+(global-set-key (kbd "C-c SPC")	'ace-jump-mode)
+(global-set-key (kbd "RET")		'newline-and-indent)
+(global-set-key (kbd "C-<f4>")		'kill-buffer-and-window)
+(global-set-key (kbd "<delete>")	'delete-char)  ; delete == delete
+(global-set-key (kbd "M-g")		'goto-line)    ; M-g  'goto-line
+(global-set-key (kbd "M-G")		'goto-char)    ; M-g  'goto-char
+(global-set-key (kbd "C-x C-r")	'comment-or-uncomment-region) ;;
+(global-set-key (kbd "C-c s h")	'prelude-copy-file-name-to-clipboard)
+(global-set-key (kbd "C-c C-<left>")	'winner-undo)
+(global-set-key (kbd "C-c C-<right>")	'winner-redo)
+(global-set-key (kbd "C-.")		'er/expand-region)
+(global-set-key (kbd "C-,")		'er/contract-region)
+
+;; helm
+(global-set-key (kbd "M-x")		'helm-M-x)
+(global-set-key (kbd "M-y")		'helm-show-kill-ring)
+(global-set-key (kbd "C-x b")		'helm-mini)
+(global-set-key (kbd "C-x C-f")	'helm-find-files)
+(global-set-key (kbd "C-c m")		'helm-man-woman)
+(global-set-key (kbd "C-c f")		'helm-find)
+(global-set-key (kbd "C-c l")		'helm-locate)
+(global-set-key (kbd "C-c o")		'helm-occur)
+(global-set-key (kbd "C-c h t")	'helm-top)
+(global-set-key (kbd "C-c h c")	'helm-colors)
+(global-set-key (kbd "C-c r")           'helm-regexp)
+(global-set-key (kbd "C-c e")           'helm-projectile)
+
+;; code navigation
+(global-set-key (kbd "C-c c")		'helm-gtags-mode)
+(global-set-key (kbd "C-c z")		'cscope-minor-mode)
+(global-set-key (kbd "C-c x")		'ggtags-mode)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Package-specific
+
+;(define-key map (kbd "C-c") nil)
+;(define-key 'help-command (kbd "C-c h") 'discover-my-major)
+;; xcscope
+(define-key cscope-minor-mode-keymap (kbd "C-c s q") 'cscope-pop-mark)
+
+;; ggtags
+(define-key ggtags-mode-map (kbd "C-c s g") 'ggtags-find-tag-dwim)
+(define-key ggtags-mode-map (kbd "C-c s d") 'ggtags-find-definition)
+(define-key ggtags-mode-map (kbd "C-c s f") 'ggtags-find-file)
+(define-key ggtags-mode-map (kbd "C-c s s") 'ggtags-find-reference)
+(define-key ggtags-mode-map (kbd "C-c s q") 'ggtags-prev-mark)
+(define-key ggtags-mode-map (kbd "C-c s w") 'ggtags-next-mark)
+
+;; helm-gtags
+(define-key helm-gtags-mode-map (kbd "C-c s v") 'helm-gtags-select)
+(define-key helm-gtags-mode-map (kbd "C-c s g") 'helm-gtags-dwim)
+(define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+(define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
+(define-key helm-gtags-mode-map (kbd "C-c s t") 'helm-gtags-find-tag)
+(define-key helm-gtags-mode-map (kbd "C-c s s") 'helm-gtags-find-symbol)
+(define-key helm-gtags-mode-map (kbd "C-c s f") 'helm-gtags-find-files)
+;;(define-key helm-gtags-mode-map (kbd "C-c s q") 'helm-gtags-pop-stack)
+(define-key helm-gtags-mode-map (kbd "C-c s r") 'helm-gtags-resume)
+(define-key helm-gtags-mode-map (kbd "C-c s w") 'helm-gtags-next-history)
+(define-key helm-gtags-mode-map (kbd "C-c s q") 'helm-gtags-previous-history)
+
+;; org
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+
+;; Magit
+(define-key global-map (kbd "C-c g") 'magit-status)
+
+;; ibuffer
+(define-key global-map (kbd "C-x C-b") 'ibuffer)
