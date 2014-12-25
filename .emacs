@@ -1,38 +1,30 @@
+
 ;;Package -- Summary
 
 ;;; Commentary:
 
 ;;; Code:
-(setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")))
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+			 ("melpa" . "http://melpa.milkbox.net/packages/")))
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
-;;(setq url-proxy-services '(("no_proxy" . "work\\.com")
-;;                           ("http" . "global.proxy.lucent.com:8000")))
+;; (setq url-proxy-services '(("no_proxy" . "work\\.com")
+;;                            ("http" . "global.proxy.lucent.com:8000")))
 
 (setq package-enable-at-startup nil)
 
 
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ;; Package auto-installation
-;; ;(defun ensure-package-installed (&rest packages)
-;; ;  "Assure every package is installed, ask for installation if it’s not.
-;; ;
-;; ;Return a list of installed packages or nil for every skipped package."
-;; ;  (mapcar
-;; ;   (lambda (package)
-;; ;     ;; (package-installed-p 'evil)
-;; ;     (if (package-installed-p package)
-;; ;         nil
-;; ;       (if (y-or-n-p (format "Package %s is missing. Install it? " package))
-;; ;           (package-install package)
-;; ;         package)))
-;; ;   packages))
-
-;; ;(ensure-package-installed  'magit 'save-place 'helm 'projectile 'helm-projectile 'speedbar 'uniquify 'undo-tree 'company 'xcscope 'nlinum 'flycheck 'flycheck-tip 'rainbow-delimiters 'ace-jump-mode 'multi-term 'volatile-highlights 'clean-aindent-mode 'zdiff 'golden-ratio 'discover-my-major) 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; browser
+;; (setq browse-url-browser-function 'browse-url-generic
+;;       browse-url-generic-program "/opt/conkeror/conkeror")
+(setq browse-url-generic-program (executable-find "conkeror"))
+(setq browse-url-browser-function 'browse-url-generic)
 
 ;; activate installed packages
 (package-initialize)
+ ;; (setq debug-on-error 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; general settings
@@ -47,6 +39,16 @@
 (setq completion-ignore-case t           ;; ignore case when completing...
       read-file-name-completion-ignore-case t) ;; ...filenames too
 
+;; http://www.emacswiki.org/cgi-bin/wiki/ShowParenMode
+(when (fboundp 'show-paren-mode)
+  (show-paren-mode t)
+  (setq show-paren-style 'parenthesis))
+
+;; hl-line: highlight the current line
+(when (fboundp 'global-hl-line-mode)
+  (global-hl-line-mode t)) ;; turn it on for all modes by default
+
+
 (add-to-list 'same-window-buffer-names '*undo-tree*)
 
 (set-terminal-coding-system 'utf-8)
@@ -57,51 +59,6 @@
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
-
-
-(defadvice show-paren-function
-  (after show-matching-paren-offscreen activate)
-  "If the matching paren is offscreen, show the matching line in the
-    echo area. Has no effect if the character before point is not of
-    the syntax class ')'."
-  (interactive)
-  (let* ((cb (char-before (point)))
-         (matching-text (and cb
-                             (char-equal (char-syntax cb) ?\) )
-                             (blink-matching-open))))
-    (when matching-text (message matching-text))))
-
-
-(defun goto-match-paren (arg)
-  "Go to the matching  if on (){}[], similar to vi style of % "
-  (interactive "p")
-  ;; first, check for "outside of bracket" positions expected by forward-sexp, etc.
-  (cond ((looking-at "[\[\(\{]") (forward-sexp))
-        ((looking-back "[\]\)\}]" 1) (backward-sexp))
-        ;; now, try to succeed from inside of a bracket
-        ((looking-at "[\]\)\}]") (forward-char) (backward-sexp))
-        ((looking-back "[\[\(\{]" 1) (backward-char) (forward-sexp))
-        (t nil)))
-
-
-;; http://www.emacswiki.org/cgi-bin/wiki/ShowParenMode
-(when (fboundp 'show-paren-mode)
-  (show-paren-mode t)
-  (setq show-paren-style 'parenthesis))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
-;; (setcar (cdr (assq 'yas/minor-mode mode-minor-alist)) " yas")
-;; (setcar (cdr (assq 'undo-tree-mode minor-mode-alist)) " unt")
-;; (setcar (cdr (assq 'golden-ratio-mode minor-mode-alist)) " gdr")
-;; (setcar (cdr (assq 'emacs-lisp-mode minor-mode-alist)) " els")
-;; (setcar (cdr (assq 'company-mode minor-mode-alist)) " com")
-;; (setcar (cdr (assq 'slime-mode minor-mode-alist)) " slm")
-;; (setcar (cdr (assq 'flycheck-mode minor-mode-alist)) " fly")
-;; (setcar (cdr (assq 'drag-mode minor-mode-alist)) " drg")
-;; (setcar (cdr (assq 'helm-mode minor-mode-alist)) " hlm")
-;; (setcar (cdr (assq 'whitespace-mode minor-mode-alist)) " wsp")
-;; (setcar (cdr (assq 'volatile-highlights-mode minor-mode-alist)) " vhl")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Custom functions
@@ -115,21 +72,93 @@
       (kill-new filename)
       (message "Copied buffer file name '%s' to the clipboard." filename))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Key-chord
-(require 'key-chord)
-(key-chord-mode 1)
-(setq key-chord-two-keys-delay .01)
+(defadvice show-paren-function
+  (after show-matching-paren-offscreen activate)
+  "If the matching paren is offscreen, show the matching line in the
+    echo area. Has no effect if the character before point is not of
+    the syntax class ')'."
+  (interactive)
+  (let* ((cb (char-before (point)))
+         (matching-text (and cb
+                             (char-equal (char-syntax cb) ?\) )
+                             (blink-matching-open))))
+    (when matching-text (message matching-text))))
+
+(defun goto-match-paren (arg)
+  "Go to the matching  if on (){}[], similar to vi style of % "
+  (interactive "p")
+  ;; first, check for "outside of bracket" positions expected by forward-sexp, etc.
+  (cond ((looking-at "[\[\(\{]") (forward-sexp))
+        ((looking-back "[\]\)\}]" 1) (backward-sexp))
+        ;; now, try to succeed from inside of a bracket
+        ((looking-at "[\]\)\}]") (forward-char) (backward-sexp))
+        ((looking-back "[\[\(\{]" 1) (backward-char) (forward-sexp))
+        (t nil)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Language-Specific packages
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;
+;; LaTeX
+;; (require 'auctex)
+;; (require 'preview-latex)
+
+;;;;;;;;;;;;;;;;;;;;
+;; C
+(setq c-default-style "linux"
+      c-basic-offset 4)
+
+
+;;;;;;;;;;
+;; C/C++ syntax analyzer
+(require 'cc-mode)
+(require 'semantic)
+(require 'semantic/bovine/gcc)
+(add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
+(add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
+(add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
+(add-to-list 'semantic-default-submodes 'global-semantic-decoration-mode)
+(add-to-list 'semantic-default-submodes 'global-semantic-highlight-func-mode)
+(add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
+(add-to-list 'semantic-default-submodes 'global-semantic-mru-bookmark-mode)
+(semantic-mode 1)
+(global-semantic-idle-breadcrumbs-mode 1)
+
+(defvar semantic-tags-location-ring (make-ring 20)) 
+(defun semantic-goto-definition (point)
+  "Goto definition using semantic-ia-fast-jump
+save the pointer marker if tag is found"
+  (interactive "d")
+  (condition-case err
+      (progn
+        (ring-insert semantic-tags-location-ring (point-marker))
+        (semantic-ia-fast-jump point))
+    (error
+     ;;if not found remove the tag saved in the ring
+     (set-marker (ring-remove semantic-tags-location-ring 0) nil nil)
+     (signal (car err) (cdr err)))))
+
+(defun semantic-pop-tag-mark ()
+  "popup the tag save by semantic-goto-definition"
+  (interactive)
+  (if (ring-empty-p semantic-tags-location-ring)
+      (message "%s" "No more tags available")
+    (let* ((marker (ring-remove semantic-tags-location-ring 0))
+              (buff (marker-buffer marker))
+                 (pos (marker-position marker)))
+      (if (not buff)
+            (message "Buffer has been deleted")
+        (switch-to-buffer buff)
+        (goto-char pos))
+      (set-marker marker nil nil))))
+
+;;;;;;;;;;;;;;;;;;;;
 ;; haskell
 (require 'haskell-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ghc (haskell)
+;;;;;;;;;;
+;; ghc 
 (require 'ghc)
 (let ((my-cabal-path (expand-file-name "~/.cabal/bin")))
   (setenv "PATH" (concat my-cabal-path ":" (getenv "PATH")))
@@ -139,17 +168,12 @@
 (autoload 'ghc-debug "ghc" nil t)
 (add-hook 'haskell-mode-hook (lambda () (ghc-init)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; CEDET
-;;(require 'CEDET)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; SLIME
+;;;;;;;;;;;;;;;;;;;;
+;; lisp
 (require 'slime-autoloads)
 (setq inferior-lisp-program "/usr/local/bin/sbcl")
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; paredit
+;;;;;;;;;;
 (require 'paredit)
 (add-hook 'slime-repl-mode-hook (lambda () (paredit-mode +1)))
 ;; Stop SLIME's REPL from grabbing DEL,
@@ -160,15 +184,13 @@
 (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
 (add-hook 'emacs-lisp-mode-hook 'slime-mode)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Python Stuff
-;(require 'elpy)
-;(elpy-enable)
+;;;;;;;;;;;;;;;;;;;;
+;; Python 
 (require 'jedi)
 (setq jedi:server-command '("~/.emacs.d/elpa/jedi-20140321.1323/jediepcserver.py"))
 (add-hook 'python-mode-hook 'jedi:setup)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;
 ;; Generic highlighting
 (require 'generic-x)
 
@@ -176,28 +198,20 @@
 ;; global packages
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; dired+
-;; (setq diredp-hide-details-initially-flag nil)
-(require 'dired+)
-(setq dired-dwim-target t) ;; Copy to other dired buffer by default
+;; visual
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; imenu
-(setq lisp-comment-imenu-generic-expression
-      '(;;("Subject"  "^Subject: *\\(.*\\)" 1)
-        ("Subsection"     ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\n;;\\(.*\\)\n" 1)))
+;;;;;;;;;;;;;;;;;;;;
+;; allow for hilighting!
+(global-hi-lock-mode 1)
 
-(add-hook 'emacs-lisp-mode-hook
-	  (lambda ()
-	    (setq imenu-generic-expression lisp-comment-imenu-generic-expression)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; perspective
-(require 'perspective)
-(persp-mode 1)
-(require 'persp-projectile)
+;;;;;;;;;;;;;;;;;;;;
+;; Highlight region after yank
+(require 'volatile-highlights)
+(volatile-highlights-mode t)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;
 ;; show white space characters
 (require 'whitespace)
 (setq whitespace-style
@@ -212,22 +226,32 @@
 (global-whitespace-mode)
 (tool-bar-mode -1)
 
-;; hl-line: highlight the current line
-(when (fboundp 'global-hl-line-mode)
-  (global-hl-line-mode t)) ;; turn it on for all modes by default
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Interface, Navigation
+
+
+;;;;;;;;;;;;;;;;;;;;
 ;; http://www.emacswiki.org/emacs/WinnerMode
 (when (fboundp 'winner-mode)
   (winner-mode 1))
 
+;;;;;;;;;;;;;;;;;;;;
+;; imenu
+(setq lisp-comment-imenu-generic-expression
+      '(;;("Subject"  "^Subject: *\\(.*\\)" 1)
+        ("Subsection"     ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;\n;;\\(.*\\)\n" 1)))
+(add-hook 'emacs-lisp-mode-hook
+	  (lambda ()
+	    (setq imenu-generic-expression lisp-comment-imenu-generic-expression)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; saveplace: save location in file when saving files
-(require 'saveplace)                   ;; get the package
-(setq save-place-file "~/.emacs.d/cache/saveplace")
-(setq-default save-place t)            ;; activate it for all buffers
+
+;;;;;;;;;;;;;;;;;;;;
+;; perspective
+(require 'perspective)
+(persp-mode 1)
+(require 'persp-projectile)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Navigate Emacs windows with shift+arrows
@@ -237,10 +261,32 @@
 (windmove-default-keybindings)
 (setq framemove-hook-into-windmove t)
 
+;; Make windmove work in org-mode:
+(add-hook 'org-shiftup-final-hook 'windmove-up)
+(add-hook 'org-shiftleft-final-hook 'windmove-left)
+(add-hook 'org-shiftdown-final-hook 'windmove-down)
+(add-hook 'org-shiftright-final-hook 'windmove-right)
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Highlight region after yank
-(require 'volatile-highlights)
-(volatile-highlights-mode t)
+;; Smooth Scrolling
+(require 'smooth-scrolling)
+(setq smooth-scroll-margin 5)
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; dired+
+;; (setq diredp-hide-details-initially-flag nil)
+(require 'dired+)
+(setq dired-dwim-target t) ;; Copy to other dired buffer by default
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; saveplace: save location in file when saving files
+(require 'saveplace)                   ;; get the package
+(setq save-place-file "~/.emacs.d/cache/saveplace")
+(setq-default save-place t)            ;; activate it for all buffers
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Semantic expansion
@@ -250,11 +296,6 @@
 ;; Regex
 ;; (require 'visual-regexp)
 (require 'visual-regexp-steroids)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Smooth Scrolling
-(require 'smooth-scrolling)
-(setq smooth-scroll-margin 5)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Remove whitespace after RETing 2nd time in a row
@@ -268,7 +309,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; automatic resizing
-(require 'golden-ratio)
+;; (require 'golden-ratio)
 ;;(setq golden-ratio-exclude-modes '("ediff-mode"
 ;;                                   "gud-mode"
 ;;                                   "gdb-locals-mode"
@@ -296,6 +337,14 @@
 (yas-global-mode 1)
 (add-hook 'shell-mode-hook (lambda()
             (yas-minor-mode -1)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; abbreviations
+(setq-default abbrev-mode t)
+(read-abbrev-file "~/.emacs.d/abbrev_defs")
+(setq save-address t)
+(setq save-abbrevs t)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Helm  
 (require 'helm-config)
@@ -325,7 +374,7 @@
 ;; (eval-after-load "helm-gtags"
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;Navigation
+;; Code Navigation
 (require 'xcscope)
 (add-hook 'c-mode-hook 'cscope-minor-mode)
 (add-hook 'c++-mode-hook 'cscope-minor-mode)
@@ -375,48 +424,6 @@ helm-gtatgs-path-style 'relative
 (setq projectile-enable-caching t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; C/C++ syntax analyzer
-(require 'cc-mode)
-(require 'semantic)
-(require 'semantic/bovine/gcc)
-(add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
-(add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
-(add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
-(add-to-list 'semantic-default-submodes 'global-semantic-decoration-mode)
-(add-to-list 'semantic-default-submodes 'global-semantic-highlight-func-mode)
-(add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
-(add-to-list 'semantic-default-submodes 'global-semantic-mru-bookmark-mode)
-(global-semantic-idle-breadcrumbs-mode t)
-(semantic-mode 1)
-
-(defun semantic-goto-definition (point)
-  "Goto definition using semantic-ia-fast-jump
-save the pointer marker if tag is found"
-  (interactive "d")
-  (condition-case err
-      (progn
-        (ring-insert semantic-tags-location-ring (point-marker))
-        (semantic-ia-fast-jump point))
-    (error
-     ;;if not found remove the tag saved in the ring
-     (set-marker (ring-remove semantic-tags-location-ring 0) nil nil)
-     (signal (car err) (cdr err)))))
-
-(defun semantic-pop-tag-mark ()
-  "popup the tag save by semantic-goto-definition"
-  (interactive)
-  (if (ring-empty-p semantic-tags-location-ring)
-      (message "%s" "No more tags available")
-    (let* ((marker (ring-remove semantic-tags-location-ring 0))
-              (buff (marker-buffer marker))
-                 (pos (marker-position marker)))
-      (if (not buff)
-            (message "Buffer has been deleted")
-        (switch-to-buffer buff)
-        (goto-char pos))
-      (set-marker marker nil nil))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; silver-surfer
 (require 'helm-ag)
 (setq helm-ag-insert-at-point 'symbol)
@@ -437,16 +444,80 @@ save the pointer marker if tag is found"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; more autocompletion
 (require 'hippie-exp)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; org-mode
 (require 'org)
+(unless (boundp 'org-export-latex-classes)
+  (setq org-export-latex-classes nil))
 (setq org-log-done t)
+(setq org-src-fontify-natively t)
+
+;; active Babel languages
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((C . t)
+   (python . t)
+   (lisp . t)
+   (latex . t)
+   (sh . t)
+   (lisp . t)
+   ))
+
+;; (setq org-export-html-style-include-scripts nil
+;;        org-export-html-style-include-default nil)
+;;  (setq org-export-html-style
+;;        "<link rel=\"stylesheet\" type=\"text/css\" href=\"/home/aapollon/.emacs.d/themes/solarized-dark.css\" />")
+
+;; Include the latex-exporter
+(require 'ox-latex)
+;; Add minted to the defaults packages to include when exporting.
+(add-to-list 'org-latex-packages-alist '("" "minted"))
+;; Tell the latex export to use the minted package for source
+;; code coloration.
+(setq org-latex-listings 'minted)
+;; Let the exporter use the -shell-escape option to let latex
+;; execute external programs.
+(setq org-latex-pdf-process
+      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+(setq org-export-latex-listings t)
+(add-to-list 'org-latex-classes
+          '("code-article"
+	    "\\documentclass{article}"
+             ("\\section{%s}" . "\\section*{%s}")	     
+             ("\\subsection{%s}" . "\\subsection*{%s}")
+             ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+
+
+;; org-capture
+(setq org-directory "~/org")
+(setq org-default-notes-file (concat org-directory "/notes.org"))
+;; Bind Org Capture to C-c r
+
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline (concat org-directory "/notes.org") "Tasks")
+         "** TODO %?\n %i\n")
+        ("l" "Link" plain (file+headline (concat org-directory "/notes.org") "Links")
+         "- %?\n %x\n")
+        ("q" "Quick Note" plain (file+headline (concat org-directory "/notes.org") "Quick Notes")
+         "+ %?\n %i\n")))
+
+(setq org-agenda-files (list "~/org/agenda.org"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; htmlize
+(require 'htmlize)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; speedbar
 (require 'speedbar)
 (require 'semantic/sb)
 ;;(require 'sr-speedbar)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; god-mode
+(require 'god-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Treat undo as a tree
@@ -467,6 +538,11 @@ save the pointer marker if tag is found"
 ;; line numbering
 (require 'nlinum)
 (global-nlinum-mode 1)
+(add-hook 'haskell-mode-hook 'nlinum-mode)
+(add-hook 'emacs-lisp-mode-hook 'nlinum-mode)
+(add-hook 'c-mode-hook 'nlinum-mode)
+(add-hook 'c++-mode-hook 'nlinum-mode)
+(add-hook 'python-mode-hook 'nlinum-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; multiple terminals
@@ -481,13 +557,6 @@ save the pointer marker if tag is found"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; rename multiple variables, etc
 (require 'iedit)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; workspaces
-;; (require 'workgroups2)
-;; (setq wg-prefix-key (kbd "C-c w"))
-;; (workgroups-mode 1)
-;; (setq wg-session-file "~/.emacs.d/.emacs_workgroups")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ace jump mode major function
@@ -527,6 +596,8 @@ save the pointer marker if tag is found"
                (mode . mail-mode)
                ;; etc.; all your mail related modes
                ))
+	    ("Helm"
+	     (name . "Helm"))
             ("Vobs"
               (filename . "/vobs/"))
             ("Scripts"
@@ -537,6 +608,10 @@ save the pointer marker if tag is found"
 (add-hook 'ibuffer-mode-hook
   (lambda ()
     (ibuffer-switch-to-saved-filter-groups "default")))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Swap two open buffers
+(require 'buffer-move)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; powerline
@@ -569,65 +644,170 @@ save the pointer marker if tag is found"
   '(diminish 'magit-auto-revert-mode ))
 (eval-after-load "slime"
   '(diminish 'slime-mode ))
+(eval-after-load "abbrev"
+  '(diminish 'abbrev-mode ))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; irc
 (require 'erc)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Drag stuff
-(require 'drag-stuff)
-(drag-stuff-global-mode t)
+;; (require 'drag-stuff)
+;; (drag-stuff-global-mode t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (require 'jump-char)
+;; (global-set-key (kbd "C-x >") 'jump-char-forward)
+;; (global-set-key (kbd "C-x <") 'jump-char-backward)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; mu4e
+(require 'mu4e)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Multiple cursors
+(require 'multiple-cursors)
+
+;; default
+(setq mu4e-maildir (expand-file-name "~/.mail/gmail"))
+
+(setq mu4e-drafts-folder "Drafts")
+(setq mu4e-sent-folder   "Sent_Mail")
+(setq mu4e-trash-folder  "Trash")
+
+;; don't save message to Sent Messages, Gmail/IMAP takes care of this
+(setq mu4e-sent-messages-behavior 'delete)
+
+;; (See the documentation for `mu4e-sent-messages-behavior' if you have
+;; additional non-Gmail addresses and want assign them different
+;; behavior.)
+
+;; setup some handy shortcuts
+;; you can quickly switch to your Inbox -- press ``ji''
+;; then, when you want archive some messages, move them to
+;; the 'All Mail' folder by pressing ``ma''.
+
+;; (setq mu4e-maildir-shortcuts
+;;     '( ("/INBOX"               . ?i)
+;;        ("/[Gmail].Sent Mail"   . ?s)
+;;        ("/[Gmail].Trash"       . ?t)
+;;        ("/[Gmail].All Mail"    . ?a)))
+
+;; allow for updating mail using 'U' in the main view:
+(setq mu4e-get-mail-command "mbsync gmail"
+      mu4e-html2text-command "w3m -T text/html"
+      mu4e-update-interval 120
+      mu4e-headers-auto-update t
+      mu4e-compose-signature-auto-include nil)
+;; something about ourselves
+(setq
+   user-mail-address "Anapollonsky@gmail.com"
+   user-full-name  "Andrew Apollonsky"
+   mu4e-compose-signature
+    (concat
+      "Andrew Apollonsky"
+      ""))
+
+;; sending mail -- replace USERNAME with your gmail username
+;; also, make sure the gnutls command line utils are installed
+;; package 'gnutls-bin' in Debian/Ubuntu
+
+(require 'smtpmail)
+;; (setq message-send-mail-function 'smtpmail-send-it
+;;    starttls-use-gnutls t
+;;    smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+;;    smtpmail-auth-credentials
+;;      '(("smtp.gmail.com" 587 "Anapollonsky@gmail.com" nil))
+;;    smtpmail-default-smtp-server "smtp.gmail.com"
+;;    smtpmail-smtp-server "smtp.gmail.com"
+;;    smtpmail-smtp-service 587)
+
+;; alternatively, for emacs-24 you can use:
+(setq message-send-mail-function 'smtpmail-send-it
+    smtpmail-stream-type 'starttls
+    smtpmail-default-smtp-server "smtp.gmail.com"
+    smtpmail-smtp-server "smtp.gmail.com"
+    smtpmail-smtp-service 587)
+
+;; don't keep message buffers around
+(setq message-kill-buffer-on-exit t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; global keybindings 
 (global-unset-key (kbd "C-x c"))
 (global-unset-key (kbd "C-c h"))
 
-(key-chord-define-global "jj"				'ace-jump-word-mode)
-(key-chord-define-global "jl"				'ace-jump-line-mode)
-(key-chord-define-global "jk"				'ace-jump-char-mode)
-(key-chord-define-global "zx"				'hippie-expand)
-(key-chord-define-global "xx"				'persp-switch)
+(key-chord-define-global "jj"		'ace-jump-word-mode)
+(key-chord-define-global "jl"		'ace-jump-line-mode)
+(key-chord-define-global "jk"		'ace-jump-char-mode)
+(key-chord-define-global "zx"		'hippie-expand)
+(key-chord-define-global "xx"		'persp-switch)
+(key-chord-define-global "zq"		'org-capture)
+(key-chord-define-global "qq"		'god-local-mode)
+(key-chord-define-global "qw"		'other-window)
+(key-chord-define-global "w3"		'fixup-whitespace)
 
-(global-set-key (kbd "C-c SPC")			'ace-jump-mode)
-(global-set-key (kbd "RET")				'newline-and-indent)
-(global-set-key (kbd "C-<f4>")				'kill-buffer-and-window)
-(global-set-key (kbd "<delete>")			'delete-char)  ; delete == delete
-(global-set-key (kbd "M-g")				'goto-line)    ; M-g  'goto-line
-(global-set-key (kbd "M-G")				'goto-char)    ; M-g  'goto-char
-(global-set-key (kbd "C-x C-r")			'comment-or-uncomment-region) ;;
-(global-set-key (kbd "C-c s h")			'prelude-copy-file-name-to-clipboard)
-(global-set-key (kbd "C-c C-<left>")			'winner-undo)
-(global-set-key (kbd "C-c C-<right>")			'winner-redo)
-(global-set-key (kbd "C-.")				'er/expand-region)
-(global-set-key (kbd "C-,")				'er/contract-region)
-(global-set-key (kbd "C-c r r")			'vr/replace)
-(global-set-key (kbd "C-c r q")			'vr/query-replace)
-(global-set-key (kbd "C-s")				'vr/isearch-forward)
-(global-set-key (kbd "C-r")				'vr/isearch-backward)
+(global-set-key (kbd "C-c SPC")	'ace-jump-mode)
+(global-set-key (kbd "RET")		'newline-and-indent)
+(global-set-key (kbd "C-<f4>")		'kill-buffer-and-window)
+(global-set-key (kbd "<delete>")	'delete-char)  ; delete == delete
+(global-set-key (kbd "M-g")		'goto-line)    ; M-g  'goto-line
+(global-set-key (kbd "M-G")		'goto-char)    ; M-g  'goto-char
+(global-set-key (kbd "C-x C-r")	'comment-or-uncomment-region) ;;
+(global-set-key (kbd "C-c s h")	'prelude-copy-file-name-to-clipboard)
+(global-set-key (kbd "C-c C-<left>")	'winner-undo)
+(global-set-key (kbd "C-c C-<right>")	'winner-redo)
+(global-set-key (kbd "C-.")		'er/expand-region)
+(global-set-key (kbd "C-,")		'er/contract-region)
+(global-set-key (kbd "C-c r r")	'vr/replace)
+(global-set-key (kbd "C-c r q")	'vr/query-replace)
+(global-set-key (kbd "C-s")		'vr/isearch-forward)
+(global-set-key (kbd "C-r")		'vr/isearch-backward)
+;; (global-set-key (kbd "C-c C-s")	'isearch-forward)
+;; (global-set-key (kbd "C-c C-r")	'isearch-backward)
+(global-set-key (kbd "C-x q")	'pop-to-mark-command)
+
+;; buffer-move
+(global-set-key (kbd "C-x <up>")	'buf-move-up)
+(global-set-key (kbd "C-x <down>")	'buf-move-down)
+(global-set-key (kbd "C-x <left>")	'buf-move-left)
+(global-set-key (kbd "C-x <right>")	'buf-move-right)
 
 ;; helm
-(global-set-key (kbd "M-x")				'helm-M-x)
-(global-set-key (kbd "M-y")				'helm-show-kill-ring)
-(global-set-key (kbd "C-x b")				'helm-mini)
-(global-set-key (kbd "C-x C-f")			'helm-find-files)
-(global-set-key (kbd "C-c m")				'helm-man-woman)
-(global-set-key (kbd "C-c f")				'helm-find)
-(global-set-key (kbd "C-c l")				'helm-locate)
-(global-set-key (kbd "C-c o")				'helm-occur)
-(global-set-key (kbd "C-c h t")			'helm-top)
-(global-set-key (kbd "C-c h c")			'helm-colors)
-;; (global-set-key (kbd "C-c r")			'helm-regexp)
-(global-set-key (kbd "C-c e")				'helm-projectile)
-(global-set-key (kbd "C-c d")				'helm-semantic-or-imenu)
-(global-set-key (kbd "C-c y a")			'helm-ag)
-(global-set-key (kbd "C-c y q")			'helm-ag-pop-stack)
+(global-set-key (kbd "M-x")		'helm-M-x)
+(global-set-key (kbd "M-y")		'helm-show-kill-ring)
+(global-set-key (kbd "C-x b")		'helm-mini)
+(global-set-key (kbd "C-x C-f")	'helm-find-files)
+(global-set-key (kbd "C-c m")		'helm-man-woman)
+(global-set-key (kbd "C-c f")		'helm-find)
+(global-set-key (kbd "C-c u")		'helm-locate)
+(global-set-key (kbd "C-c o")		'helm-occur)
+(global-set-key (kbd "C-c h t")	'helm-top)
+(global-set-key (kbd "C-c h c")	'helm-colors)
+;; (global-set-key (kbd "C-c r")	'helm-regexp)
+(global-set-key (kbd "C-c e")		'helm-projectile)
+(global-set-key (kbd "C-c d")		'helm-semantic-or-imenu)
+(global-set-key (kbd "C-c y a")	'helm-ag)
+(global-set-key (kbd "C-c y q")	'helm-ag-pop-stack)
 
 ;; code navigation
-(global-set-key (kbd "C-c c")				'helm-gtags-mode)
-(global-set-key (kbd "C-c z")				'cscope-minor-mode)
-(global-set-key (kbd "C-c x")				'ggtags-mode)
+(global-set-key (kbd "C-c c")		'helm-gtags-mode)
+(global-set-key (kbd "C-c z")		'cscope-minor-mode)
+(global-set-key (kbd "C-c x")		'ggtags-mode)
+
+;; multiple cursors
+(global-set-key (kbd "C-x c e") 'mc/edit-lines)
+(global-set-key (kbd "C-x c d") 'mc/mark-all-dwim)
+(global-set-key (kbd "C-x c a") 'mc/mark-all-like-this)
+(global-set-key (kbd "C-x c n") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-x c p") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-x c w") 'mc/mark-more-like-this-extended)
+(global-set-key (kbd "C-x c t") 'mc/mark-sgml-tag-pair)
+(global-set-key (kbd "C-x c c") 'mc/insert-numbers)
+(global-set-key (kbd "C-x c r") 'mc/reverse-regions)
+(global-set-key (kbd "C-x c s") 'set-rectangular-region-anchor)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Package-specific
