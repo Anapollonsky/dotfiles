@@ -1,0 +1,13 @@
+URxvt.depth: 32
+
+URxvt.font: xft:DejaVu Sans Mono:size=11:antialias=true
+URxvt.foreground: #C5C5E5
+URxvt.background: [80]#171722
+URxvt.scrollBar: false
+
+! scroll in pagers properly
+URxvt.secondaryScreen: 1
+URxvt.secondaryScroll: 0
+
+! This will cause the shell to be started as a login shell, like the option -ls.
+! URxvt*loginShell: true

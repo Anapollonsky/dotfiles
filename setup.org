@@ -1,0 +1,13 @@
+* Startup
+** X
+Start up a background (note, requires feh is installed)
+#+BEGIN_SRC sh
+feh --bg-scale ~/.dotfiles/background.jpg
+#+END_SRC
+
+** xmonad
+*** Screenshot
+Install scrot to to allow for screenshots.
+
+** urxvt
+rxvt-unicode is a terminal emulator.
