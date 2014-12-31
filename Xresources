@@ -2,7 +2,7 @@
 
 URxvt.depth: 32
 
-URxvt.font: xft:DejaVu Sans Mono:size=10.5:antialias=true
+URxvt.font: xft:DejaVu Sans Mono:size=12:antialias=true
 URxvt.foreground: #D5D5F5
 URxvt.letterSpace: -1
 
@@ -27,5 +27,5 @@ URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
 URxvt*loginShell: true
 
 ! Replace nasty blue with something else
-URxvt*color4: #009B7B
-URxvt*color12: #009B7B
+URxvt*color4: #00A373
+URxvt*color12: #00A373

@@ -34,6 +34,7 @@ main = do
         , ((0, xK_Print), spawn "scrot") -- printscreen = screenshot of everything. screenshot reqs "scrot"
         , ((mod4Mask, xK_a), spawn "emacs")
         , ((mod4Mask, xK_s), spawn "conkeror")
+        , ((mod4Mask, xK_d), spawn "dmenu_run")          
           -- direction navigation of windows
         , ((mod4Mask,                 xK_Right), windowGo R True)
         , ((mod4Mask,                 xK_Left ), windowGo L True)
