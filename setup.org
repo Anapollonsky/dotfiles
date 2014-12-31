@@ -15,6 +15,13 @@ Install scrot to to allow for screenshots.
 
 ** urxvt
 rxvt-unicode is a terminal emulator.
+*** colors
+Default debian package is 88-color version, be sure to select 256-color version from repo.
+
+Colors for the 'ls' command can be configured with. Which is in my .zshrc file.
+#+BEGIN_SRC sh
+eval "$(dircolors -b ~/.dotfiles/LS_COLORS)"
+#+END_SRC
 *** urxvt-perls
 https://github.com/muennich/urxvt-perls
 Collection of perl script to allow things like copy/paste with keyboard to happen.

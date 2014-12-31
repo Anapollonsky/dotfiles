@@ -11,3 +11,9 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+
+
+# colors for ls, modify directory color. Colors seen here:
+# http://misc.flogisoft.com/bash/tip_colors_and_formatting
+# Assumes 256-color capable terminal 
+eval "$(dircolors -b ~/.dotfiles/LS_COLORS)"
