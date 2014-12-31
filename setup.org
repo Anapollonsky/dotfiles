@@ -6,8 +6,15 @@ feh --bg-scale ~/.dotfiles/background.jpg
 #+END_SRC
 
 ** xmonad
+*** Install
+Install through cabal for an update to dat version, with up-todate extensions. It must then be manually registered with gdm (gnome display manager / login manager) or any such alternative.
 *** Screenshot
 Install scrot to to allow for screenshots.
 
+
+
 ** urxvt
 rxvt-unicode is a terminal emulator.
+*** urxvt-perls
+https://github.com/muennich/urxvt-perls
+Collection of perl script to allow things like copy/paste with keyboard to happen.

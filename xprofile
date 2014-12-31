@@ -1,3 +1,5 @@
 #!/bin/sh
+# Used for general, on-startup actions.
 
+# Change background.
 feh --bg-scale ~/.dotfiles/background.jpg

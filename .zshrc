@@ -1,1 +1,0 @@
-/home/aapollon/.zprezto/runcoms/zshrc
