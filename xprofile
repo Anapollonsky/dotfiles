@@ -5,7 +5,13 @@
 feh --bg-scale ~/.dotfiles/background.jpg
 
 # run urxvt daemon
-urxvtd
+urxvtd&
+
+# emacs setup
+export ALTERNATE_EDITOR=emacs EDITOR=emacsclient VISUAL=emacsclient
+emacs --daemon&
+
 # Add cabal binaries
 export PATH=$PATH:/home/aapollon/.cabal/bin/
+
 
