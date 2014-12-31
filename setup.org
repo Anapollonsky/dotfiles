@@ -22,6 +22,20 @@ Colors for the 'ls' command can be configured with. Which is in my .zshrc file.
 #+BEGIN_SRC sh
 eval "$(dircolors -b ~/.dotfiles/LS_COLORS)"
 #+END_SRC
+
+More usefully, colors, such as blue in the example below, can be globally replaced in urxvt with
+#+BEGIN_SRC 
+URxvt*color4: #009B7B
+URxvt*color12: #009B7B
+#+END_SRC
 *** urxvt-perls
 https://github.com/muennich/urxvt-perls
 Collection of perl script to allow things like copy/paste with keyboard to happen.
+
+
+* Useful programs
+** z
+Shell script allows you to jump to recently/oftenly used directories by passing it a in-order sequence of words appearing in the targets' full path.
+https://github.com/rupa/z
+** htop
+Thoroughly superior alternative to top. Colored, nice-lookin', etc.
