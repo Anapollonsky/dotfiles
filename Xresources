@@ -1,16 +1,13 @@
 ! Used to configure URxvt, the terminal emulator.
-! The next level is the shell ,which is set with environmental variables.
-
 
 URxvt.depth: 32
 
 URxvt.font: xft:DejaVu Sans Mono:size=10.5:antialias=true
-URxvt.foreground: #C5C5E5
+URxvt.foreground: #D5D5F5
 URxvt.letterSpace: -1
 
 URxvt.background: #171722
 URxvt.scrollBar: false
-
 
 ! scroll in pagers properly
 URxvt.secondaryScreen: 1
@@ -28,3 +25,7 @@ URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
 
 ! This will cause the shell to be started as a login shell, like the option -ls.
 URxvt*loginShell: true
+
+! Replace nasty blue with something else
+URxvt*color4: #009B7B
+URxvt*color12: #009B7B

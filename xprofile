@@ -6,3 +6,4 @@ feh --bg-scale ~/.dotfiles/background.jpg
 
 # Add cabal binaries
 export PATH=$PATH:/home/aapollon/.cabal/bin/
+

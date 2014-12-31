@@ -7,10 +7,10 @@ Config { font = "xft:DejaVu Sans Mono:size=9:bold:antialias=true"
                     , Run Memory ["-t","Mem: <usedratio>%"] 10
                     , Run Swap [] 10
                     , Run Date "%a %b %_d %l:%M" "date" 10
-                    , Run Network "eth0" ["-L","10","-H","50","--low","#666699","--normal","#A0E030","--high","#E0A030"] 10
+                    , Run Network "eth0" ["-L","10","-H","50","--low","#666699","--normal","#669966","--high","#996666"] 10
                     , Run StdinReader
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %eth0% | %cpu% | %memory% | %swap%    <fc=#ee9a00>%date%</fc> | %EGPF%"
+       , template = "%StdinReader% }{ %eth0%  |  %cpu% | %memory% | %swap%    <fc=#ee9a00>%date%</fc> | %EGPF%"
        }

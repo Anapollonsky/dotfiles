@@ -6,7 +6,6 @@ HOME_DIR=$(getent passwd $SUDO_USER | cut -d: -f6)
 SCRIPT_PATH=$(readlink -f "$0")
 SCRIPT_DIR=$(dirname "$SCRIPT_PATH")
 
-
 # install the configuration files
 if [[ $# -eq 1 && $1 = "install" ]]  || [[ $# -eq 0 ]]
 then
@@ -18,6 +17,8 @@ then
     ln -sv $SCRIPT_DIR/xmonad.hs $HOME_DIR/.xmonad/xmonad.hs
     ln -sv $SCRIPT_DIR/Xresources $HOME_DIR/.Xresources
     ln -sv $SCRIPT_DIR/xprofile $HOME_DIR/.xprofile
+    ln -sv $SCRIPT_DIR/zpreztorc $HOME_DIR/.zpreztorc # originally simlink to /home/aapollon/.zprezto/runcoms/zpreztorc
+    ln -sv $SCRIPT_DIR/prompt_apples_setup $HOME_DIR/.zprezto/modules/prompt/functions/prompt_apples_setup # prezto/zsh prompt theme, based on sorin
     exit 0
 fi
 
@@ -37,6 +38,8 @@ then
     mv -vb $HOME_DIR/.Xresources $SCRIPT_DIR/backup/
     mv -vb $HOME_DIR/.xmonad/xmonad.hs $SCRIPT_DIR/backup/
     mv -vb $HOME_DIR/.xprofile $SCRIPT_DIR/backup/
+    mv -vb $HOME_DIR/.zpreztorc $SCRIPT_DIR/backup/
+    mv -vb $HOME_DIR/.zprezto/modules/prompt/functions/prompt_apples_setup $SCRIPT_DIR/backup/
     exit 0
 fi
 

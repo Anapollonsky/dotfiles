@@ -12,8 +12,15 @@ fi
 
 # Customize to your needs...
 
+# z-jump - nifty for navigating with less typing! https://github.com/rupa/z
+source ~/bin/z/z.sh
 
+
+
+#################### Obsolete
+
+### Found out you can replace colors directly in the urxvt config
 # colors for ls, modify directory color. Colors seen here:
 # http://misc.flogisoft.com/bash/tip_colors_and_formatting
 # Assumes 256-color capable terminal 
-eval "$(dircolors -b ~/.dotfiles/LS_COLORS)"
+# eval "$(dircolors -b ~/.dotfiles/LS_COLORS)"
