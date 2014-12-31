@@ -4,6 +4,8 @@
 # Change background.
 feh --bg-scale ~/.dotfiles/background.jpg
 
+# run urxvt daemon
+urxvtd
 # Add cabal binaries
 export PATH=$PATH:/home/aapollon/.cabal/bin/
 
