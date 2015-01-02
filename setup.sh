@@ -30,6 +30,10 @@ then
     for k in "${(@k)file_dest_map}"; do # http://superuser.com/questions/737350/iterating-over-keys-or-k-v-pairs-in-zsh-associative-array
 	ln -sv $k $file_dest_map[$k]
     done
+    if [[ ! -a $HOME_DIR/.ss ]]
+    then
+	touch $HOME_DIR/.ss
+    fi
     exit 0
 fi
 

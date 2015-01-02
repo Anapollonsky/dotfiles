@@ -1,6 +1,9 @@
 #!/bin/sh
 # Used for general, on-startup actions.
 
+# Computer-specific settings
+source ~/.ss
+
 # Change background.
 feh --bg-scale ~/.dotfiles/background.jpg
 
@@ -9,7 +12,7 @@ urxvtd&
 
 # emacs setup
 export ALTERNATE_EDITOR=emacs EDITOR=emacsclient VISUAL=emacsclient
-emacs --daemon&
+#emacs --daemon&
 
 # Add cabal binaries
 export PATH=$PATH:/home/aapollon/.cabal/bin/

@@ -1,7 +1,7 @@
 Config { font = "xft:DejaVu Sans Mono:size=9:bold:antialias=true"
        , bgColor = "#11111A"
        , fgColor = "#B5B5D5"
-       , position = Bottom C 100
+       , position = Top C 100
        , commands = [ Run Weather "EGPF" ["-t"," <tempC>C","-L","12","-H","23","--normal","#669966","--high","#996666","--low","#666699"] 36000
                     , Run Cpu ["-L","3","-H","50","--normal","#A0E030","--high","#E0A030"] 10
                     , Run Memory ["-t","Mem: <usedratio>%"] 10
