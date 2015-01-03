@@ -18,6 +18,7 @@ file_dest_map=($SCRIPT_DIR/conkerorrc $HOME_DIR/.conkerorrc
 	       $SCRIPT_DIR/Xresources $HOME_DIR/.Xresources
 	       $SCRIPT_DIR/xprofile $HOME_DIR/.xprofile
 	       $SCRIPT_DIR/zpreztorc $HOME_DIR/.zpreztorc # originally simlink to /home/aapollon/.zprezto/runcoms/zpreztorc
+	       $SCRIPT_DIR/tmux.conf $HOME_DIR/.tmux.conf 
 	       $SCRIPT_DIR/prompt_apples_setup $HOME_DIR/.zprezto/modules/prompt/functions/prompt_apples_setup
 	       # $SCRIPT_DIR/i3config /etc/i3/config
 	      )
