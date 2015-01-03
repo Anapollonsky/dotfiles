@@ -5,7 +5,7 @@
 source ~/.ss
 
 # Change background.
-feh --bg-scale ~/.dotfiles/background.jpg
+feh --bg-scale ~/dotfiles/background.jpg
 
 # run urxvt daemon
 urxvtd&

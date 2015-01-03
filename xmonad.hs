@@ -36,7 +36,7 @@ import XMonad.Util.Run
 import XMonad.Util.WorkspaceCompare
 
 main = do
-    xmproc <- spawnPipe "/usr/bin/xmobar /home/aapollon/.dotfiles/xmobarrc"
+    xmproc <- spawnPipe "/usr/bin/xmobar /home/aapollon/dotfiles/xmobarrc"
     xmonad $ def
         {
 -------------------- basics
