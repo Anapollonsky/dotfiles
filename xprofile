@@ -15,6 +15,6 @@ export ALTERNATE_EDITOR=emacs EDITOR=emacsclient VISUAL=emacsclient
 #emacs --daemon&
 
 # Add cabal binaries
-export PATH=$PATH:/home/aapollon/.cabal/bin/
+export PATH=/home/aapollon/.cabal/bin/:$PATH
 
 

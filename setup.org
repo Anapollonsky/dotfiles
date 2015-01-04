@@ -12,7 +12,6 @@ Install through cabal for an update to dat version, with up-todate extensions. I
 Install scrot to to allow for screenshots.
 
 
-
 ** urxvt
 rxvt-unicode is a terminal emulator.
 *** colors
@@ -32,7 +31,10 @@ URxvt*color12: #009B7B
 https://github.com/muennich/urxvt-perls
 Collection of perl script to allow things like copy/paste with keyboard to happen.
 
+** tmux
+Terminal multiplexer.
 
+Can be extended with tmuxinator.
 * Useful programs
 ** z
 Shell script allows you to jump to recently/oftenly used directories by passing it a in-order sequence of words appearing in the targets' full path.
