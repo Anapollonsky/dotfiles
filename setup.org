@@ -2,7 +2,7 @@
 ** X
 Start up a background (note, requires feh is installed)
 #+BEGIN_SRC sh
-feh --bg-scale ~/.dotfiles/background.jpg
+feh --bg-scale ~/dotfiles/background.jpg
 #+END_SRC
 
 ** xmonad

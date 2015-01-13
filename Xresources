@@ -1,47 +1,50 @@
+! .Xresources
+! Andrew Apollonsky
 ! Used to configure URxvt, the terminal emulator.
 
-URxvt.depth: 32
+URxvt*.depth: 32
 
-URxvt.font: xft:DejaVu Sans Mono:size=12:antialias=true
-URxvt.foreground: #D5D5F5
-URxvt.letterSpace: -1
+URxvt*.font: xft:DejaVu Sans Mono:size=12:antialias=true
+URxvt*.foreground: #D5D5F5
+URxvt*.letterSpace: -1
 
-URxvt.background: #171722
-URxvt.scrollBar: false
+URxvt*.transparent: true
+URxvt*.shading: 5
+URxvt*.background: #171722
+URxvt*.scrollBar: false
 
 ! scroll in pagers properly
-URxvt.secondaryScreen: 1
-URxvt.secondaryScroll: 0
+URxvt*.secondaryScreen: 1
+URxvt*.secondaryScroll: 0
 
 ! Selection tools for urxvt. Requires keyboard-select from urxvt-perls
-URxvt.perl-ext-common: ...,keyboard-select
-URxvt.keysym.M-Escape: perl:keyboard-select:activate
-
+URxvt*.perl-ext-common: ...,keyboard-select, clipboard
+URxvt*.keysym.M-Escape: perl:keyboard-select:activate
+URxvt*.keysym.C-s:      perl:keyboard-select:search
 ! Allow proper copy/paste. Requires clipboard from urxvt-perls
-URxvt.perl-ext-common: ...,clipboard
-URxvt.keysym.M-c:   perl:clipboard:copy
-URxvt.keysym.M-v:   perl:clipboard:paste
-URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
+URxvt*.keysym.M-w:      perl:clipboard:copy
+URxvt*.keysym.C-y:      perl:clipboard:paste
+URxvt*.keysym.M-C-v:    perl:clipboard:paste_escaped
 
 ! This will cause the shell to be started as a login shell, like the option -ls.
-URxvt*loginShell: true
+URxvt*.loginShell: true
 
 ! color replacement
 ! red
-URxvt*color1: #ff7766
-URxvt*color9: #ff7766
+URxvt*.color1: #ff7766
+URxvt*.color9: #ff7766
 ! green
-URxvt*color2: #32cd32
-URxvt*color10: #32cd32
+URxvt*.color2: #32cd32
+URxvt*.color10: #32cd32
 ! yellow
-URxvt*color3: #fff088
-URxvt*color11: #fff088
+URxvt*.color3: #fff088
+URxvt*.color11: #fff088
 ! blue
-URxvt*color4: #4070e0
-URxvt*color12: #4070e0
+URxvt*.color4: #4070e0
+URxvt*.color12: #4070e0
 ! purple
-URxvt*color5: #9070e0
-URxvt*color13: #9070e0
-!cyan
-URxvt*color6: #00bfff
-URxvt*color14: #00bfff
+URxvt*.color5: #9070e0
+URxvt*.color13: #9070e0
+! cyan
+URxvt*.color6: #00bfff
+URxvt*.color14: #00bfff

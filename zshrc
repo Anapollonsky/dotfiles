@@ -13,9 +13,7 @@ fi
 # Customize to your needs...
 
 # z-jump - nifty for navigating with less typing! https://github.com/rupa/z
-source ~/bin/z/z.sh
-
-
+source /usr/lib/z.sh
 
 #################### Obsolete
 

@@ -13,7 +13,6 @@
 
 -- Andrew Apollonsky xmonad configuration
 -- Sources:
--- https://www.haskell.org/haskellwiki/Xmonad/Config_archive/John_Goerzen's_Configuration
 -- https://github.com/nicolasavru/dotfiles/blob/master/xmonad/xmonad.hs
 
 import qualified Data.Map as M
@@ -25,18 +24,19 @@ import XMonad.Actions.Navigation2D
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Layout.IndependentScreens
-import XMonad.Layout.MultiToggle
+import XMonad.Layout.MultiToggle -- requires DeriveDataTypeable
 import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.Renamed
 import XMonad.Layout.Grid
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.Tabbed
 import XMonad.Layout.Reflect
+import XMonad.Layout.Spacing
 import XMonad.Util.Run
 import XMonad.Util.WorkspaceCompare
 
 main = do
-    xmproc <- spawnPipe "/usr/bin/xmobar /home/aapollon/dotfiles/xmobarrc"
+    xmproc <- spawnPipe "/usr/bin/xmobar /home/apple/dotfiles/xmobarrc"
     xmonad $ def
         {
 -------------------- basics
@@ -49,7 +49,7 @@ main = do
 -------------------- xmobar                               
         -- , manageHook = myManageHook <+> manageHook def
         , manageHook = manageDocks <+> manageHook def
-        , layoutHook = myLayouts
+        , layoutHook = avoidStruts myLayouts
         , logHook = dynamicLogWithPP xmobarPP
                         { ppOutput = hPutStrLn xmproc
                         , ppCurrent = xmobarColor "#AAEE33" ""
@@ -69,14 +69,13 @@ main = do
 myWorkspaces = withScreens 4 ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 
 -------------------- layouts
-myLayouts = avoidStruts
-            $ mkToggle (REFLECTX ?? REFLECTY ?? MIRROR ?? TABBED ?? FULL ?? EOT)
+myLayouts =  mkToggle (REFLECTX ?? REFLECTY ?? MIRROR ?? TABBED ?? FULL ?? EOT)
             $ Tall 1 (3/1000) (1/2)
             ||| renamed [Replace "ThreeColMid"] (ThreeColMid 1 (3/100) (1/2))
             ||| Grid
 
 ---------- TABBED layout
-myTabConfig = defaultTheme {
+myTabConfig = def {
   inactiveBorderColor = "#77AA11"
 , activeBorderColor = "#AAEE33"
 , activeColor = "#303030"
@@ -121,6 +120,6 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
          , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
          ]
      ++ [((modm .|. mask, key), f sc)
-        | (key, sc) <- zip [xK_w, xK_e, xK_r, xK_t] [0..]
+        | (key, sc) <- zip [xK_w, xK_e] [0..]
         , (f, mask) <- [(viewScreen, 0), (sendToScreen, shiftMask)]
         ]
