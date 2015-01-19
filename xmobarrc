@@ -2,19 +2,43 @@ Config { font = "xft:DejaVu Sans Mono:size=10:antialias=true" -- compile with wi
        , bgColor = "#11111A"
        , fgColor = "#B5B5D5"
        , position = Top C 100
-       , commands = [ Run Weather "EGPF" ["-t"," <tempC>C","-L","12","-H","23","--normal","#BBFFBB","--high","#FFBBBB","--low","#BBBBFF"] 36000
-                    , Run Cpu ["-L","3","-H","50","--normal","#A0E030","--high","#E0A030"] 10
+       , commands = [ Run Weather "EGPF"
+                      ["-t"," <tempC>C"
+                      ,"-L","12"
+                      ,"-H","23"
+                      ,"--normal","#BBFFBB"
+                      ,"--high","#FFBBBB"
+                      ,"--low","#BBBBFF"] 36000
+                      
+                    , Run Cpu
+                      ["-L","3"
+                      ,"-H","50"
+                      ,"--normal","#A0E030"
+                      ,"--high","#E0A030"] 10
                     , Run Memory ["-t","Mem: <usedratio>%"] 10
+                      
                     , Run Swap [] 10
+                      
                     , Run Date "%a %b %_d %l:%M" "date" 10
-                    , Run Network "eth0" ["-L","10","-H","50","--low","#666699","--normal","#669966","--high","#996666"] 10
-		    , Run MPD ["-t", -- compile with with_mpd
-          "[<fc=#BBFFFF><statei></fc>] <fc=#FF9999><artist></fc> -- <fc=orange><album></fc> -- <fc=#BBFFFF><track>/<plength></fc> <fc=#AAEE33><title></fc>",
-          "--", "-P", ">", "-Z", "|", "-S", "X"] 10
+                      
+                    , Run Network "eth0"
+                      ["-L","10"
+                      ,"-H","50"
+                      ,"--low","#666699"
+                      ,"--normal","#669966"
+                      ,"--high","#996666"] 10
+                      
+                    , Run MPD -- compile with with_mpd
+                      ["-t", "[<fc=#BBFFFF><statei></fc>] <fc=#FF9999><artist></fc> -- <fc=orange><album></fc> -- <fc=#BBFFFF><track>/<plength></fc> <fc=#AAEE33><title></fc>"
+                      , "--"
+                      , "-P", ">"
+                      , "-Z", "|"
+                      , "-S", "X"] 10
+                      
                     , Run StdinReader
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% | %mpd% }{ %eth0% | %cpu% | %memory% | %swap%    <fc=#ee9a00>%date%</fc> | %EGPF%"
+       , template = "%StdinReader% | %mpd% }{ %eth0% | %cpu% | %memory% | %swap%    <fc=orange>%date%</fc> | %EGPF%"
        }
 
