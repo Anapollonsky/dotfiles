@@ -23,6 +23,7 @@ import XMonad.Actions.PhysicalScreens
 import XMonad.Actions.Navigation2D
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.UrgencyHook
 import XMonad.Layout.IndependentScreens
 import XMonad.Layout.MultiToggle -- requires DeriveDataTypeable
 import XMonad.Layout.MultiToggle.Instances
@@ -31,14 +32,15 @@ import XMonad.Layout.Grid
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.Tabbed
 import XMonad.Layout.Reflect
-import XMonad.Layout.Spacing
+-- import XMonad.Layout.Spacing
 import XMonad.Util.Run
 import XMonad.Util.WorkspaceCompare
 
 
 main = do
-    xmproc <- spawnPipe "xmobar /home/apple/dotfiles/xmobarrc"
-    xmonad $ def
+    xmproc <- spawnPipe "xmobar ~/.xmobarrc"
+    xmonad $ withUrgencyHook NoUrgencyHook
+           $ def
         {
 -------------------- basics
           terminal = "urxvtc"
@@ -55,10 +57,11 @@ main = do
                         { ppOutput = hPutStrLn xmproc
                         , ppCurrent = xmobarColor "#AAEE33" ""
                         , ppVisible = xmobarColor "#BBBBBB" ""
-                        , ppTitle = xmobarColor "#AAEE33" "" . shorten 150
+                        , ppTitle = xmobarColor "#AAEE33" "" . shorten 30
                         , ppLayout = xmobarColor "orange" ""
                         , ppSort = getSortByTag
                         , ppHidden = const ""
+                        -- , ppUrgent = xmobarColor "yellow" "red" . xmobarStrip -- urgency hook
                         } 
                         
 -------------------- other
@@ -70,12 +73,11 @@ main = do
 myWorkspaces = withScreens 4 ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 
 -------------------- layouts
-myLayouts = renamed [CutWordsLeft 2] -- Remove Spacing name modification
-            $ smartSpacing 20
-            $ mkToggle (REFLECTX ?? REFLECTY ?? MIRROR ?? TABBED ?? FULL ?? EOT)
+myLayouts = mkToggle (REFLECTX ?? REFLECTY ?? MIRROR ?? TABBED ?? FULL ?? EOT)
             $ Tall 1 (3/1000) (1/2)
             ||| renamed [Replace "ThreeColMid"] (ThreeColMid 1 (3/100) (1/2))
             ||| Grid
+
 
 ---------- TABBED layout
 myTabConfig = def {
@@ -84,7 +86,7 @@ myTabConfig = def {
 , activeColor = "#303030"
 , inactiveColor = "#101010"
 , decoHeight = 18
-, fontName = "xft:DejaVu Sans Mono:size=9:bold:antialias=true"
+, fontName = "xft:DejaVu Sans Mono:size=10:antialias=true"
 }
 
 data TABBED = TABBED deriving (Read, Show, Eq, Typeable)
@@ -110,8 +112,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         , ((modm .|. shiftMask, xK_z), spawn "mpc shuffle")
         , ((modm .|. shiftMask, xK_r), spawn "mpc repeat")
         , ((modm .|. shiftMask, xK_y), spawn "mpc single")
-        , ((modm .|. shiftMask, xK_equal), spawn "mpc volume +10")
-        , ((modm, xK_minus), spawn "mpc volume -10")
+        , ((modm .|. shiftMask, xK_equal), spawn "mpc volume +5")
+        , ((modm, xK_minus), spawn "mpc volume -5")
 
           -- directional navigation of windows
         , ((modm,                 xK_Right), windowGo R True)
