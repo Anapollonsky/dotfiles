@@ -35,8 +35,9 @@ import XMonad.Layout.Spacing
 import XMonad.Util.Run
 import XMonad.Util.WorkspaceCompare
 
+
 main = do
-    xmproc <- spawnPipe "/usr/bin/xmobar /home/apple/dotfiles/xmobarrc"
+    xmproc <- spawnPipe "xmobar /home/apple/dotfiles/xmobarrc"
     xmonad $ def
         {
 -------------------- basics
@@ -69,7 +70,9 @@ main = do
 myWorkspaces = withScreens 4 ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 
 -------------------- layouts
-myLayouts =  mkToggle (REFLECTX ?? REFLECTY ?? MIRROR ?? TABBED ?? FULL ?? EOT)
+myLayouts = renamed [CutWordsLeft 2] -- Remove Spacing name modification
+            $ smartSpacing 20
+            $ mkToggle (REFLECTX ?? REFLECTY ?? MIRROR ?? TABBED ?? FULL ?? EOT)
             $ Tall 1 (3/1000) (1/2)
             ||| renamed [Replace "ThreeColMid"] (ThreeColMid 1 (3/100) (1/2))
             ||| Grid
@@ -98,21 +101,38 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         , ((modm, xK_a), spawn "emacs")
         , ((modm, xK_s), spawn "conkeror")
         , ((modm, xK_d), spawn "dmenu_run")
+
+          -- MPD commands. Requires MPD/Mopidy running with MPC installed.
+        , ((modm, xK_p), spawn "mpc toggle")
+        , ((modm .|. shiftMask, xK_period), spawn "mpc next")
+        , ((modm .|. shiftMask, xK_comma ), spawn "mpc prev")  
+        , ((modm, xK_z), spawn "mpc random")
+        , ((modm .|. shiftMask, xK_z), spawn "mpc shuffle")
+        , ((modm .|. shiftMask, xK_r), spawn "mpc repeat")
+        , ((modm .|. shiftMask, xK_y), spawn "mpc single")
+        , ((modm .|. shiftMask, xK_equal), spawn "mpc volume +10")
+        , ((modm, xK_minus), spawn "mpc volume -10")
+
           -- directional navigation of windows
         , ((modm,                 xK_Right), windowGo R True)
         , ((modm,                 xK_Left ), windowGo L True)
         , ((modm,                 xK_Up   ), windowGo U True)
         , ((modm,                 xK_Down ), windowGo D True)
+        , ((modm .|. controlMask, xK_l),     windowGo R True)
+        , ((modm .|. controlMask, xK_h),     windowGo L True)
+        , ((modm .|. controlMask, xK_k),     windowGo U True)
+        , ((modm .|. controlMask, xK_j),     windowGo D True)
         , ((modm .|. shiftMask,   xK_Right), windowToScreen R True)
         , ((modm .|. shiftMask,   xK_Left ), windowToScreen L True)
         , ((modm .|. shiftMask,   xK_Up   ), windowToScreen U True)
-        , ((modm .|. shiftMask,   xK_Down ), windowToScreen D True)          
+        , ((modm .|. shiftMask,   xK_Down ), windowToScreen D True)
+
           -- Multi-Toggle Modes
-        , ((modm,               xK_n), sendMessage $ Toggle MIRROR)
-        , ((modm,               xK_f), sendMessage $ Toggle TABBED)
-        , ((modm .|. shiftMask, xK_f), sendMessage $ Toggle FULL)
-        , ((modm,               xK_x), sendMessage $ Toggle REFLECTX)
-        , ((modm,               xK_y), sendMessage $ Toggle REFLECTY)
+        , ((modm,                 xK_n), sendMessage $ Toggle MIRROR)
+        , ((modm,                 xK_f), sendMessage $ Toggle TABBED)
+        , ((modm .|. shiftMask,   xK_f), sendMessage $ Toggle FULL)
+        , ((modm,                 xK_x), sendMessage $ Toggle REFLECTX)
+        , ((modm,                 xK_y), sendMessage $ Toggle REFLECTY)
         ]
           -- workspace control
       ++ [((m .|. modm, k), windows $ onCurrentScreen f i)
