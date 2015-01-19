@@ -22,7 +22,7 @@ file_dest_map=($SCRIPT_DIR/conkerorrc $HOME_DIR/.conkerorrc
 	       $SCRIPT_DIR/prompt_apples_setup $HOME_DIR/.zprezto/modules/prompt/functions/prompt_apples_setup
 	       $SCRIPT_DIR/xmobarrc $HOME_DIR/.xmobarrc
 	       $SCRIPT_DIR/xinitrc $HOME_DIR/.xinitrc
-	       # $SCRIPT_DIR/i3config /etc/i3/config
+	       $SCRIPT_DIR/mopidy.conf $HOME_DIR/.config/mopidy/mopidy.conf
 	      )
 
 # install the configuration files
