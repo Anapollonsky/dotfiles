@@ -3,5 +3,5 @@ export ALTERNATE_EDITOR=emacs EDITOR=emacsclient VISUAL=emacsclient
 feh --bg-scale ~/dotfiles/background.jpg
 xrdb -merge ~/.Xresources
 urxvtd&
-mpd &
+mpd ~/.config/mpdconf&
 exec xmonad

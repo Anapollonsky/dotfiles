@@ -35,7 +35,7 @@ import XMonad.Layout.Reflect
 -- import XMonad.Layout.Spacing
 import XMonad.Util.Run
 import XMonad.Util.WorkspaceCompare
-
+import XMonad.Util.EZConfig
 
 main = do
     xmproc <- spawnPipe "xmobar ~/.xmobarrc"
@@ -105,6 +105,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         , ((modm, xK_d), spawn "dmenu_run")
 
           -- MPD commands. Requires MPD/Mopidy running with MPC installed.
+          -- Based on ncmpcpp keybindings.
         , ((modm, xK_p), spawn "mpc toggle")
         , ((modm .|. shiftMask, xK_period), spawn "mpc next")
         , ((modm .|. shiftMask, xK_comma ), spawn "mpc prev")  
@@ -136,6 +137,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         , ((modm,                 xK_x), sendMessage $ Toggle REFLECTX)
         , ((modm,                 xK_y), sendMessage $ Toggle REFLECTY)
         ]
+
           -- workspace control
       ++ [((m .|. modm, k), windows $ onCurrentScreen f i)
          | (i, k) <- zip (workspaces' conf) [xK_1, xK_2, xK_3, xK_4, xK_5, xK_6, xK_7, xK_8, xK_9, xK_0]

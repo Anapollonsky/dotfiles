@@ -25,7 +25,7 @@ Config { font = "xft:DejaVu Sans Mono:size=10:antialias=true" -- compile with wi
                       ,"--high","#FFBBBB"
                       ,"--low", "#BBBBFF"] 10
                                             
-                    , Run Date "<fc=#BBFFFF>%a</fc> %b %_d<fc=#FF9999>%l:%M</fc>" "date" 10
+                    , Run Date "<fc=#BBFFFF>%a</fc> %b %_d <fc=#FF9999>%l:%M</fc>" "date" 10
                       
                     , Run Network "eth0"
                       ["-L","15"
