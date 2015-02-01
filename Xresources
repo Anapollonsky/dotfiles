@@ -13,6 +13,12 @@ URxvt*.shading: 5
 URxvt*.background: #171722
 URxvt*.scrollBar: false
 
+URxvt*.cursorColor: Red ! cursor color
+URxvt*.cursorColor2: Black ! color of cursor text
+URxvt*.pointerColor: Black ! pointer foreground
+URxvt*.pointerColor2: Red ! pointer background
+URxvt*.cursorBlink: true
+
 ! scroll in pagers properly
 URxvt*.secondaryScreen: 1
 URxvt*.secondaryScroll: 0
@@ -31,8 +37,8 @@ URxvt*.loginShell: true
 
 ! color replacement
 ! red
-URxvt*.color1: #ff7766
-URxvt*.color9: #ff7766
+URxvt*.color1: #ff2222
+URxvt*.color9: #ff2222
 ! green
 URxvt*.color2: #32cd32
 URxvt*.color10: #32cd32
