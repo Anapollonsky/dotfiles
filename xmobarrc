@@ -46,6 +46,5 @@ Config { font = "xft:DejaVu Sans Mono:size=10:antialias=true" -- compile with wi
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% |%mpd%}{%eth0% | %cpu% | %memory% | <fc=orange>%date%</fc> |%EGPF%"
+       , template = "%StdinReader% | %mpd%}{%eth0% | %cpu% | %memory% | <fc=orange>%date%</fc> |%EGPF%"
         }
-
