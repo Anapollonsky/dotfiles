@@ -24,7 +24,8 @@ file_dest_map=($SCRIPT_DIR/conkerorrc $HOME_DIR/.conkerorrc
 	       $SCRIPT_DIR/xinitrc $HOME_DIR/.xinitrc
 	       $SCRIPT_DIR/mopidy.conf $HOME_DIR/.config/mopidy/mopidy.conf
 	       $SCRIPT_DIR/mpdconf $HOME_DIR/.config/mpdconf
-	      )
+	       $SCRIPT_DIR/spacemacs $HOME_DIR/.spacemacs
+              )
 
 # install the configuration files
 if [[ $# -eq 1 && $1 = "install" ]]  || [[ $# -eq 0 ]]
