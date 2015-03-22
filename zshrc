@@ -14,7 +14,8 @@ fi
 
 # z-jump - nifty for navigating with less typing! https://github.com/rupa/z
 source /usr/lib/z.sh
-
+source ~/.ss
+eval "$(fasd  --init auto)"
 #################### Obsolete
 
 ### Found out you can replace colors directly in the urxvt config
