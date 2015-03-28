@@ -12,7 +12,7 @@
    ;; of a list then all discovered layers will be installed.
    dotspacemacs-configuration-layers '(colors fasd git perspectives slime smex python c-c++ cscope regex extra-langs)
    ;; A list of packages and/or extensions that will not be install and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages '(evil-search-highlight-persist)
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
    ;; the list `dotspacemacs-configuration-layers'
@@ -112,6 +112,68 @@ before layers configuration."
  This function is called at the very end of Spacemacs initialization after
 layers configuration."
   (progn
+    ;; identification
+    (setf user-full-name "Andrew Apollonsky")
+    (setf user-mail-address "Anapollonsky@gmail.com")
+
+    ;; browser
+    (setq browse-url-generic-program (or (executable-find "google-chrome-stable") (executable-find "chromium")))
+    (setq browse-url-browser-function 'browse-url-generic)
+
+    ;; no dialog boxes
+    (setq use-dialog-box nil)
+
+    ;; Backups
+    (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+    (setq delete-old-versions -1)
+    (setq version-control t)
+    (setq vc-make-backup-files t)
+    (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
+
+    ;; History
+    (setq savehist-file "~/.emacs.d/savehist")
+    (savehist-mode 1)
+    (setq history-length t)
+    (setq history-delete-duplicates t)
+    (setq savehist-save-minibuffer-history 1)
+    (setq savehist-additional-variables
+          '(kill-ring
+            search-ring
+            regexp-search-ring))
+
+    ;; sudo-open current file
+    (evil-leader/set-key "ofs" 'sudo-edit)
+
+    ;; org-babel
+    (org-babel-do-load-languages ;; Parse babel blocks for these languages
+     'org-babel-load-languages
+     '((C . t)
+       (python . t)
+       (lisp . t)
+       (latex . t)
+       (sh . t)
+       ))
+    (setq org-src-fontify-natively t)
+    (add-to-list 'org-latex-packages-alist '("" "minted")) ;; Add minted to the defaults packages to include when exporting.
+    (setq org-latex-listings 'minted)  ;; Tell the latex export to use the minted package for source code coloration.
+    (setq org-latex-pdf-process ;; Let the exporter use the -shell-escape option to let latex execute external programs.
+          '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+    ;; org-capture
+    (setq org-directory "~/org")
+    (setq org-default-notes-file (concat org-directory "/notes.org"))
+    (evil-leader/set-key "ooc" 'org-capture)
+    (setq org-capture-templates
+          '(("t" "Todo" entry (file+headline (concat org-directory "/notes.org") "Tasks")
+             "** TODO %?\n %i\n")
+            ("l" "Link" plain (file+headline (concat org-directory "/notes.org") "Links")
+             "- %?\n %x\n")
+            ("q" "Quick Note" plain (file+headline (concat org-directory "/notes.org") "Quick Notes")
+             "+ %?\n %i\n")))
+    (setq org-agenda-files '("~/org/agenda.org" "~/org/notes.org"))
+
+    ;; helm
+    
     ;; whitespace
     (evil-leader/set-key "ofw" 'fixup-whitespace)
     (evil-leader/set-key "ofc" 'whitespace-cleanup)
@@ -125,30 +187,9 @@ layers configuration."
             (tab-mark 9 [9655 9] [92 9]) ; tab
             ))
     (when (display-graphic-p) (global-whitespace-mode))
-    ;; Backups
-    (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
-    (setq delete-old-versions -1)
-    (setq version-control t)
-    (setq vc-make-backup-files t)
-    (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
-    ;; History(setq savehist-file "~/.emacs.d/savehist")
-    (savehist-mode 1)
-    (setq history-length t)
-    (setq history-delete-duplicates t)
-    (setq savehist-save-minibuffer-history 1)
-    (setq savehist-additional-variables
-          '(kill-ring
-            search-ring
-            regexp-search-ring))
-    ;; sudo-open current file
-    (evil-leader/set-key "osf" 'sudo-edit)
 
-
-
+    ;; highlighting
+    (evil-leader/set-key "ohs" 'hlt-highlight-symbol)
+    (evil-leader/set-key "ohc" 'hlt-unhighlight-all-prop)
     ))
 
-
-
-
-;; Do not write anything past this comment. This is where Emacs will
-;; auto-generate custom variable definitions.
