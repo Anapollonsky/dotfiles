@@ -12,19 +12,17 @@ SCRIPT_DIR=$(dirname "$SCRIPT_PATH")
 
 # Associative array mapping each dotfile to its destination.
 typeset -A file_dest_map
-file_dest_map=($SCRIPT_DIR/conkerorrc $HOME_DIR/.conkerorrc
-	       $SCRIPT_DIR/zshrc $HOME_DIR/.zshrc
+file_dest_map=($SCRIPT_DIR/zshrc $HOME_DIR/.zshrc
 	       $SCRIPT_DIR/xmonad.hs $HOME_DIR/.xmonad/xmonad.hs
-	       $SCRIPT_DIR/Xresources $HOME_DIR/.Xresources
 	       $SCRIPT_DIR/xprofile $HOME_DIR/.xprofile
-	       $SCRIPT_DIR/zpreztorc $HOME_DIR/.zpreztorc # originally simlink to /home/aapollon/.zprezto/runcoms/zpreztorc
+	       $SCRIPT_DIR/zpreztorc $HOME_DIR/.zpreztorc 
 	       $SCRIPT_DIR/tmux.conf $HOME_DIR/.tmux.conf 
-	       $SCRIPT_DIR/prompt_apples_setup $HOME_DIR/.zprezto/modules/prompt/functions/prompt_apples_setup
 	       $SCRIPT_DIR/xmobarrc $HOME_DIR/.xmobarrc
 	       $SCRIPT_DIR/xinitrc $HOME_DIR/.xinitrc
 	       $SCRIPT_DIR/mopidy.conf $HOME_DIR/.config/mopidy/mopidy.conf
 	       $SCRIPT_DIR/mpdconf $HOME_DIR/.config/mpdconf
 	       $SCRIPT_DIR/spacemacs $HOME_DIR/.spacemacs
+         $SCRIPT_DIR/termite $HOME_DIR/.config/termite/config
               )
 
 # install the configuration files

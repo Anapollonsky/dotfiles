@@ -7,8 +7,8 @@ source ~/.ss
 # Change background.
 feh --bg-scale ~/dotfiles/background.jpg
 
-# run urxvt daemon
-urxvtd&
+urxvtd & # urxvt daemon
+compton & # compton daemon
 
 # emacs setup
 export ALTERNATE_EDITOR=emacs EDITOR=emacsclient VISUAL=emacsclient
@@ -16,5 +16,5 @@ export ALTERNATE_EDITOR=emacs EDITOR=emacsclient VISUAL=emacsclient
 
 # Add cabal binaries
 export PATH=/home/aapollon/.cabal/bin/:$PATH
-
+export PATH=/home/apple/.cabal/bin/:$PATH
 

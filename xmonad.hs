@@ -43,7 +43,7 @@ main = do
            $ def
         {
 -------------------- basics
-          terminal = "urxvtc"
+          terminal = "termite"
         , modMask = mod4Mask -- windows as mod key
         , focusedBorderColor = "#AAAAFF"
         , normalBorderColor = "#555599"
@@ -101,7 +101,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         , ((modm, xK_Print), spawn "sleep 0.2; scrot -s") -- super + printscreen = screenshot of window
         , ((0, xK_Print), spawn "scrot") -- printscreen = screenshot of everything. screenshot reqs "scrot"
         , ((modm, xK_a), spawn "emacs")
-        , ((modm, xK_s), spawn "conkeror")
+        , ((modm, xK_s), spawn "google-chrome-stable")
         , ((modm, xK_d), spawn "dmenu_run")
 
           -- MPD commands. Requires MPD/Mopidy running with MPC installed.

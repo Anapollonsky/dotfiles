@@ -4,7 +4,7 @@
 #         mixer_type      "software"      # optional
 # }
 
-music_directory "~/music"
+music_directory "/home/music/library"
 pid_file "~/.mpd/pid"
 db_file "~/.mpd/database"
 state_file "~/.mpd/mpdstate"

@@ -10,9 +10,9 @@
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load. If it is the symbol `all' instead
    ;; of a list then all discovered layers will be installed.
-   dotspacemacs-configuration-layers '(colors fasd git perspectives slime smex python c-c++ cscope regex extra-langs)
+   dotspacemacs-configuration-layers '(colors fasd git perspectives slime python c-c++ cscope regex extra-langs haskell)
    ;; A list of packages and/or extensions that will not be install and loaded.
-   dotspacemacs-excluded-packages '(evil-search-highlight-persist)
+   dotspacemacs-excluded-packages '(evil-search-highlight-persist vi-tilde-fringe)
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
    ;; the list `dotspacemacs-configuration-layers'
@@ -141,8 +141,9 @@ layers configuration."
             search-ring
             regexp-search-ring))
 
-    ;; sudo-open current file
-    (evil-leader/set-key "ofs" 'sudo-edit)
+    ;; Keybinding remapping
+    (evil-leader/set-key "ff" 'helm-find-files)
+    (evil-leader/set-key "fF" 'sudo-edit)
 
     ;; org-babel
     (org-babel-do-load-languages ;; Parse babel blocks for these languages
@@ -172,8 +173,6 @@ layers configuration."
              "+ %?\n %i\n")))
     (setq org-agenda-files '("~/org/agenda.org" "~/org/notes.org"))
 
-    ;; helm
-    
     ;; whitespace
     (evil-leader/set-key "ofw" 'fixup-whitespace)
     (evil-leader/set-key "ofc" 'whitespace-cleanup)
