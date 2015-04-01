@@ -4,15 +4,8 @@
 # Computer-specific settings
 source ~/.ss
 
-# Change background.
-feh --bg-scale ~/dotfiles/background.jpg
-
-urxvtd & # urxvt daemon
-compton & # compton daemon
-
 # emacs setup
 export ALTERNATE_EDITOR=emacs EDITOR=emacsclient VISUAL=emacsclient
-#emacs --daemon&
 
 # Add cabal binaries
 export PATH=/home/aapollon/.cabal/bin/:$PATH
