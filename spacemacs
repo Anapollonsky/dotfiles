@@ -123,6 +123,12 @@ layers configuration."
     ;; no dialog boxes
     (setq use-dialog-box nil)
 
+    ;; UTF-8 as default
+    (set-terminal-coding-system 'utf-8)
+    (set-keyboard-coding-system 'utf-8)
+    (set-language-environment "UTF-8")
+    (prefer-coding-system 'utf-8)
+
     ;; Backups
     (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
     (setq delete-old-versions -1)
