@@ -10,7 +10,7 @@
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load. If it is the symbol `all' instead
    ;; of a list then all discovered layers will be installed.
-   dotspacemacs-configuration-layers '(colors fasd git perspectives slime python c-c++ cscope regex extra-langs haskell)
+   dotspacemacs-configuration-layers '(colors fasd git perspectives slime python c-c++ cscope regex extra-langs haskell auto-completion syntax-checking org)
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '(evil-search-highlight-persist vi-tilde-fringe)
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
@@ -147,6 +147,10 @@ layers configuration."
             search-ring
             regexp-search-ring))
 
+    ;; Undo-Tree
+    (setq undo-tree-auto-save-history t)
+    (setq undo-tree-visualizer-timestamps t)
+
     ;; Keybinding remapping
     (evil-leader/set-key "ff" 'helm-find-files)
     (evil-leader/set-key "fF" 'sudo-edit)
@@ -196,5 +200,8 @@ layers configuration."
     ;; highlighting
     (evil-leader/set-key "ohs" 'hlt-highlight-symbol)
     (evil-leader/set-key "ohc" 'hlt-unhighlight-all-prop)
+
+    ;; insert-mode configuration
+    (define-key evil-insert-state-map (kbd "C-e") 'move-end-of-line)
     ))
 
