@@ -1,0 +1,37 @@
+set hintkeys=asdfghjkl
+
+" scrolling
+map -b j 5j
+map -b k 5k
+set scrollsteps=5
+set scrolltime=40
+
+map <Space> <Leader>
+map <Leader>d :downloads<CR>
+map <Leader>h :sidebar! History<CR>
+map <Leader>b :sidebar! Bookmarks<CR>
+map <Leader>a :dialog addons<CR>
+map <Leader>p :private!<CR>
+
+" Quick way to turn off search highlighting after search
+map <Leader><Space> :noh<cr>
+
+set go=sn
+set stal=multitab
+set editor=emacsclient
+
+" find as you type
+set incfind
+" highlight
+set hlfind
+"case-agnostic unless contains capitals
+set findcase=smart
+
+set! browser.tabs.closeButtons=2
+
+
+
+" hi CmdLine -a font-family:"Deja Vu Sans Mono" !important;
+" hi StatusLine -a font-family:"DejaVu Sans Mono" !important;
+" hi FontFixed -a font: 14px "DejaVu Sans Mono" !important;
+hi Hint font-size: 15px; font-weight: bold; color: #CCCCFF; background-color: black; border-color: #CCCCFF; border-width: 4px
