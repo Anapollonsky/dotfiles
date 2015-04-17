@@ -11,7 +11,9 @@ map <Leader>d :downloads<CR>
 map <Leader>h :sidebar! History<CR>
 map <Leader>b :sidebar! Bookmarks<CR>
 map <Leader>a :dialog addons<CR>
-map <Leader>p :private!<CR>
+map <Leader>p :dialog print<CR>
+map <Leader>r :dialog preferences<CR>
+
 
 " Quick way to turn off search highlighting after search
 map <Leader><Space> :noh<cr>
