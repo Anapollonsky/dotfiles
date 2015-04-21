@@ -197,11 +197,33 @@ layers configuration."
             ))
     (when (display-graphic-p) (global-whitespace-mode))
 
+    ;; centered cursor
+    (global-centered-cursor-mode)
+    
     ;; highlighting
     (evil-leader/set-key "ohs" 'hlt-highlight-symbol)
     (evil-leader/set-key "ohc" 'hlt-unhighlight-all-prop)
 
-    ;; insert-mode configuration
-    (define-key evil-insert-state-map (kbd "C-e") 'move-end-of-line)
+    ;; replace insert with emacs mode
+    ;; https://github.com/syl20bnr/spacemacs/issues/1244
+    (define-key evil-emacs-state-map [escape] 'evil-normal-state)
+
+    (defalias 'evil-insert-state 'evil-emacs-state)
+    (mapc (lambda (x) (push x evil-emacs-state-entry-hook))
+          evil-insert-state-entry-hook)
+    (mapc (lambda (x) (push x evil-emacs-state-exit-hook))
+          evil-insert-state-exit-hook)
+
+    ;; spacemacs mode color changing
+    (setq evil-normal-state-cursor '("Red" box))
+    (spacemacs/defface-state-color 'normal "Red")
+    (setq evil-emacs-state-cursor '("tomato" (bar . 2)))
+    (spacemacs/defface-state-color 'emacs "tomato")
+    (setq evil-visual-state-cursor '("chocolate" box))
+    (spacemacs/defface-state-color 'visual "chocolate")
+    (setq evil-iedit-state-cursor '("SpringGreen4" box))
+    (spacemacs/defface-state-color 'iedit "SpringGreen4")
+    (setq evil-iedit-insert-state-cursor '("SpringGreen3" (bar . 2)))
+    (spacemacs/defface-state-color 'iedit-insert "SpringGreen3")
     ))
 
