@@ -111,13 +111,24 @@ before layers configuration."
   "Configuration function.
  This function is called at the very end of Spacemacs initialization after
 layers configuration."
+
+  ;; http://stackoverflow.com/questions/95631/open-a-file-with-su-sudo-inside-emacs
+  (defun sudo-find-file (file-name)
+    "Like find file, but opens the file as root."
+    (interactive "FSudo Find File: ")
+    (let ((tramp-file-name (concat "/sudo::" (expand-file-name file-name))))
+      (find-file tramp-file-name)))
+  
   (progn
     ;; identification
     (setf user-full-name "Andrew Apollonsky")
     (setf user-mail-address "Anapollonsky@gmail.com")
 
     ;; browser
-    (setq browse-url-generic-program (or (executable-find "google-chrome-stable") (executable-find "chromium")))
+    (setq browse-url-generic-program (or (executable-find "firefox")
+                                         (executable-find "google-chrome-stable")
+                                         (executable-find "chromium")
+                                         (executable-find "conkeror")))
     (setq browse-url-browser-function 'browse-url-generic)
 
     ;; no dialog boxes
@@ -153,12 +164,14 @@ layers configuration."
 
     ;; Keybinding remapping
     (evil-leader/set-key "ff" 'helm-find-files)
-    (evil-leader/set-key "fF" 'sudo-edit)
+    (evil-leader/set-key "fF" 'sudo-find-file)
 
     ;; org-babel
     (org-babel-do-load-languages ;; Parse babel blocks for these languages
      'org-babel-load-languages
      '((C . t)
+       (C++ . t)
+       (haskell . t)
        (python . t)
        (lisp . t)
        (latex . t)
@@ -192,7 +205,7 @@ layers configuration."
     (setq whitespace-display-mappings
           '(
             (space-mark 32 [183] [46]) ; normal space
-            (newline-mark 10 [182 10]) ; newlne
+            (newline-mark 10 [182 10]) ; newline
             (tab-mark 9 [9655 9] [92 9]) ; tab
             ))
     (when (display-graphic-p) (global-whitespace-mode))
@@ -214,7 +227,7 @@ layers configuration."
     (mapc (lambda (x) (push x evil-emacs-state-exit-hook))
           evil-insert-state-exit-hook)
 
-    ;; spacemacs mode color changing
+    ;; spacemacs mode color 
     (setq evil-normal-state-cursor '("Red" box))
     (spacemacs/defface-state-color 'normal "Red")
     (setq evil-emacs-state-cursor '("tomato" (bar . 2)))
