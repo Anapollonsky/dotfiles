@@ -35,7 +35,6 @@ import XMonad.Layout.Reflect
 -- import XMonad.Layout.Spacing
 import XMonad.Util.Run
 import XMonad.Util.WorkspaceCompare
-import XMonad.Util.EZConfig
 
 main = do
     xmproc <- spawnPipe "xmobar ~/.xmobarrc"
@@ -85,8 +84,8 @@ myTabConfig = def {
 , activeBorderColor = "#AAEE33"
 , activeColor = "#303030"
 , inactiveColor = "#101010"
-, decoHeight = 18
-, fontName = "xft:DejaVu Sans Mono:size=10:antialias=true"
+, decoHeight = 20 
+, fontName = "xft:DejaVu Sans Mono:size=11:antialias=true"
 }
 
 data TABBED = TABBED deriving (Read, Show, Eq, Typeable)
@@ -101,7 +100,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         , ((modm, xK_Print), spawn "sleep 0.2; scrot -s") -- super + printscreen = screenshot of window
         , ((0, xK_Print), spawn "scrot") -- printscreen = screenshot of everything. screenshot reqs "scrot"
         , ((modm, xK_a), spawn "emacs")
-        , ((modm, xK_s), spawn "google-chrome-stable")
+        , ((modm, xK_s), spawn "firefox")
         , ((modm, xK_d), spawn "dmenu_run")
 
           -- MPD commands. Requires MPD/Mopidy running with MPC installed.
