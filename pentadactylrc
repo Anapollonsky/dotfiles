@@ -1,8 +1,8 @@
 set hintkeys=asdfghjkl
 
 " scrolling
-map -b j 5j
-map -b k 5k
+nmap -b j 5j
+nmap -b k 5k
 set scrollsteps=5
 set scrolltime=40
 
@@ -36,4 +36,4 @@ set! browser.tabs.closeButtons=2
 " hi CmdLine -a font-family:"Deja Vu Sans Mono" !important;
 " hi StatusLine -a font-family:"DejaVu Sans Mono" !important;
 " hi FontFixed -a font: 14px "DejaVu Sans Mono" !important;
-hi Hint font-size: 15px; font-weight: bold; color: #CCCCFF; background-color: black; border-color: #CCCCFF; border-width: 4px
+hi Hint font-size: 15px; font-weight: bold; color: #FFFFFF; background-color: black; border-color: #CCCCFF; border-width: 4px
