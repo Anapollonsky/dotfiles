@@ -1,0 +1,19 @@
+xterm*foreground: rgb:c8/c8/f0
+xterm*background: rgb:12/12/25
+xterm*faceName: DejaVu Sans Mono
+xterm*faceSize: 13
+
+! Rofi 
+rofi.bg: #181830
+rofi.bgalt: #282840
+rofi.bc: #DDDDFF
+rofi.fg: #DDDDFF
+rofi.hlbg: #505070
+rofi.hlfg: #EEEEFF
+
+rofi.font: DejaVu Sans Mono 12
+rofi.opacity: 90
+rofi.width: -50
+rofi.lines: 7
+rofi.padding: 2
+rofi.location: 2

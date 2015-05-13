@@ -7,4 +7,5 @@ feh --bg-scale ~/dotfiles/background.jpg
 xhost +local:
 xrdb ~/.Xresources
 xscreensaver&
+autocutsel&
 exec xmonad

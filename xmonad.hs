@@ -101,7 +101,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         , ((0, xK_Print), spawn "scrot") -- printscreen = screenshot of everything. screenshot reqs "scrot"
         , ((modm, xK_a), spawn "emacs")
         , ((modm, xK_s), spawn "firefox")
-        , ((modm, xK_d), spawn "dmenu_run")
+        , ((modm, xK_d), spawn "rofi -show run")
+        , ((modm .|. shiftMask, xK_d), spawn "dmenu_run")
 
           -- MPD commands. Requires MPD/Mopidy running with MPC installed.
           -- Based on ncmpcpp keybindings.
