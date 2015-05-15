@@ -36,8 +36,10 @@ import XMonad.Layout.Reflect
 import XMonad.Util.Run
 import XMonad.Util.WorkspaceCompare
 
+
 main = do
-    xmproc <- spawnPipe "xmobar ~/.xmobarrc"
+    xmonadbar <- spawnPipe "dzen2 -ta l -h 22 -w 420"
+    conkybar <- spawnPipe "conky | dzen2 -ta r -h 22 -x 420 -w 1500"
     xmonad $ withUrgencyHook NoUrgencyHook
            $ def
         {
@@ -52,15 +54,16 @@ main = do
         -- , manageHook = myManageHook <+> manageHook def
         , manageHook = manageDocks <+> manageHook def
         , layoutHook = avoidStruts myLayouts
-        , logHook = dynamicLogWithPP xmobarPP
-                        { ppOutput = hPutStrLn xmproc
-                        , ppCurrent = xmobarColor "#AAEE33" ""
-                        , ppVisible = xmobarColor "#BBBBBB" ""
-                        , ppTitle = xmobarColor "#AAEE33" "" . shorten 30
-                        , ppLayout = xmobarColor "orange" ""
+        , logHook = dynamicLogWithPP defaultPP 
+                        { ppOutput = hPutStrLn xmonadbar
+                        , ppCurrent = dzenColor "#AAEE33" "" . pad
+                        , ppVisible = dzenColor "#BBBBBB" "" . pad
+                        , ppTitle = dzenColor "#AAEE33" "" . shorten 40
+                        , ppLayout = dzenColor "orange" "" . pad
                         , ppSort = getSortByTag
-                        , ppHidden = const ""
-                        -- , ppUrgent = xmobarColor "yellow" "red" . xmobarStrip -- urgency hook
+                        , ppHidden = const "" 
+                        , ppHiddenNoWindows = const "" 
+                        , ppUrgent = dzenColor "yellow" "red" . pad . dzenStrip -- urgency hook
                         } 
                         
 -------------------- other

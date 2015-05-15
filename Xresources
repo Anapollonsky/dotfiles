@@ -1,3 +1,12 @@
+! dzen
+dzen2.font: xft:DejaVu Sans Mono:size=12:antialias=true
+dzen2.background: #11111A
+dzen2.foreground: #B5B5D5
+
+
+
+
+
 ! urxvt
 URxvt.depth: 32
 

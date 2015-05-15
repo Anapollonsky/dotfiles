@@ -24,6 +24,7 @@ file_dest_map=($SCRIPT_DIR/zshrc $HOME_DIR/.zshrc
          $SCRIPT_DIR/termite $HOME_DIR/.config/termite/config
          $SCRIPT_DIR/pentadactylrc $HOME_DIR/.pentadactylrc
          $SCRIPT_DIR/Xresources $HOME_DIR/.Xresources
+         $SCRIPT_DIR/conkyrc $HOME_DIR/.conkyrc
               )
 
 # install the configuration files
