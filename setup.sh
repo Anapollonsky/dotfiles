@@ -10,6 +10,9 @@ HOME_DIR=$(getent passwd $SUDO_USER | cut -d: -f6)
 SCRIPT_PATH=$(readlink -f "$0")
 SCRIPT_DIR=$(dirname "$SCRIPT_PATH")
 
+mkdir -p $HOME_DIR/.config/{dunst,termite,mopidy}
+mkdir -p $HOME_DIR/.xmonad
+
 # Associative array mapping each dotfile to its destination.
 typeset -A file_dest_map
 file_dest_map=($SCRIPT_DIR/zshrc $HOME_DIR/.zshrc
@@ -25,6 +28,7 @@ file_dest_map=($SCRIPT_DIR/zshrc $HOME_DIR/.zshrc
          $SCRIPT_DIR/pentadactylrc $HOME_DIR/.pentadactylrc
          $SCRIPT_DIR/Xresources $HOME_DIR/.Xresources
          $SCRIPT_DIR/conkyrc $HOME_DIR/.conkyrc
+         $SCRIPT_DIR/dunstrc $HOME_DIR/.config/dunst/dunstrc
               )
 
 # install the configuration files

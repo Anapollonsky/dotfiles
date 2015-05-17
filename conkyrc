@@ -1,0 +1,16 @@
+background no
+update_interval 1.0
+no_buffers yes
+out_to_console yes 
+out_to_x no
+use_spacer none
+total_run_times 0
+
+
+TEXT
+^fg(orange)RAM: ^fg(\#AAEE33)$mem^fg(orange)/^fg(\#AAEE33)$memmax    \
+^fg(orange)CPU:^fg(\#AAEE33) $cpu%    \
+^fg(\#AAEE33)${fs_used /}^fg(orange)/^fg(\#AAEE33)${fs_size /}    \
+^fg(orange)Up:^fg(\#AAEE33) ${upspeed eth0}^fg(orange)Down: ^fg(\#AAEE33)${downspeed eth0}   \
+^fg(orange)Updates: ^fg(\#AAEE33)${execpi 3600 checkupdates | wc -l}    \
+${time %H:%M} 
