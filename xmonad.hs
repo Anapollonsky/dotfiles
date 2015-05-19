@@ -32,6 +32,8 @@ import XMonad.Layout.Grid
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.Tabbed
 import XMonad.Layout.Reflect
+import XMonad.Actions.WindowBringer
+import XMonad.Actions.WindowGo
 -- import XMonad.Layout.Spacing
 import XMonad.Util.Run
 import XMonad.Util.WorkspaceCompare
@@ -47,7 +49,7 @@ main = do
           terminal = "termite"
         , modMask = mod4Mask -- windows as mod key
         , focusedBorderColor = "#AAAAFF"
-        , normalBorderColor = "#555599"
+        , normalBorderColor = "#222255"
         , borderWidth = 1
                         
 -------------------- xmobar                               
@@ -102,8 +104,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
           ((modm .|. shiftMask, xK_l), spawn "xscreensaver-command -lock") -- super+shift+l = lock
         , ((modm, xK_Print), spawn "sleep 0.2; scrot -s") -- super + printscreen = screenshot of window
         , ((0, xK_Print), spawn "scrot") -- printscreen = screenshot of everything. screenshot reqs "scrot"
-        , ((modm, xK_a), spawn "emacs")
-        , ((modm, xK_s), spawn "firefox")
+        , ((modm, xK_a), runOrRaise "emacs" (className =? "Emacs")) -- Go to window if it exists, or open new one.
+        , ((modm, xK_s), runOrRaise "firefox" (className =? "Firefox" <||> className =? "Firefox-bin" <||> className =? "Navigator"))
         , ((modm, xK_d), spawn "rofi -show run")
         , ((modm .|. shiftMask, xK_d), spawn "dmenu_run")
 
@@ -119,6 +121,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         , ((modm .|. shiftMask, xK_equal), spawn "mpc volume +5")
         , ((modm, xK_minus), spawn "mpc volume -5")
 
+         -- Bring/Goto open windows 
+        , ((modm, xK_g), gotoMenu' "rofi_dmenu")
+        , ((modm .|. shiftMask, xK_g), bringMenu' "rofi_dmenu")
+         
           -- directional navigation of windows
         , ((modm,                 xK_Right), windowGo R True)
         , ((modm,                 xK_Left ), windowGo L True)
