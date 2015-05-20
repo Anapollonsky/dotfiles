@@ -63,7 +63,7 @@ main = do
                         , ppTitle = dzenColor "#AAEE33" "" . shorten 40
                         , ppLayout = dzenColor "orange" "" . pad
                         , ppSort = getSortByTag
-                        , ppHidden = const "" 
+                        , ppHidden = dzenColor "#558855" "" . pad
                         , ppHiddenNoWindows = const "" 
                         , ppUrgent = dzenColor "yellow" "red" . pad . dzenStrip -- urgency hook
                         } 
@@ -105,6 +105,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         , ((modm, xK_Print), spawn "sleep 0.2; scrot -s") -- super + printscreen = screenshot of window
         , ((0, xK_Print), spawn "scrot") -- printscreen = screenshot of everything. screenshot reqs "scrot"
         , ((modm, xK_a), runOrRaise "emacs" (className =? "Emacs")) -- Go to window if it exists, or open new one.
+        , ((modm .|. shiftMask, xK_a), spawn "emacsclient -c") -- emacsclient
         , ((modm, xK_s), runOrRaise "firefox" (className =? "Firefox" <||> className =? "Firefox-bin" <||> className =? "Navigator"))
         , ((modm, xK_d), spawn "rofi -show run")
         , ((modm .|. shiftMask, xK_d), spawn "dmenu_run")

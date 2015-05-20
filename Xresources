@@ -1,13 +1,10 @@
-! dzen
+!!! dzen
 dzen2.font: xft:DejaVu Sans Mono:size=12:antialias=true
 dzen2.background: #11111A
 dzen2.foreground: #B5B5D5
 
 
-
-
-
-! urxvt
+!!! urxvt
 URxvt.depth: 32
 
 URxvt.font: xft:DejaVu Sans Mono:size=12:antialias=true
@@ -60,13 +57,13 @@ URxvt*color13: #9070e0
 URxvt*color6: #00bfff
 URxvt*color14: #00bfff
 
-! xterm
+!!! xterm
 xterm*foreground: rgb:c8/c8/f0
 xterm*background: rgb:12/12/25
 xterm*faceName: DejaVu Sans Mono
 xterm*faceSize: 13
 
-! Rofi 
+!!! Rofi 
 rofi.bg: #181830
 rofi.bgalt: #282840
 rofi.bc: #DDDDFF
@@ -76,7 +73,7 @@ rofi.hlfg: #EEEEFF
 
 rofi.font: DejaVu Sans Mono 12
 rofi.opacity: 90
-rofi.width: -50
+rofi.width: -100
 rofi.lines: 7
 rofi.padding: 2
 rofi.location: 2
