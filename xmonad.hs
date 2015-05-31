@@ -19,6 +19,7 @@ import qualified Data.Map as M
 import qualified XMonad.StackSet as W
 import qualified Data.List as L
 import XMonad
+import XMonad.Prompt
 import XMonad.Actions.PhysicalScreens
 import XMonad.Actions.Navigation2D
 import XMonad.Hooks.DynamicLog
@@ -34,6 +35,7 @@ import XMonad.Layout.Tabbed
 import XMonad.Layout.Reflect
 import XMonad.Actions.WindowBringer
 import XMonad.Actions.WindowGo
+import XMonad.Actions.WorkspaceNames
 -- import XMonad.Layout.Spacing
 import XMonad.Util.Run
 import XMonad.Util.WorkspaceCompare
@@ -46,17 +48,22 @@ main = do
            $ def
         {
 -------------------- basics
-          terminal = "termite"
+          -- terminal = "termite"
+          terminal = "emacsclient -c -e '(progn \
+                                          \(persp-switch \"terminals\") \
+                                          \(multi-term) \
+                                          \(set-background-color \"#070711\") \
+                                          \(spacemacs/toggle-transparent-frame) \
+                                          \(spacemacs/toggle-centered-point))'"
         , modMask = mod4Mask -- windows as mod key
         , focusedBorderColor = "#AAAAFF"
         , normalBorderColor = "#222255"
         , borderWidth = 1
                         
--------------------- xmobar                               
-        -- , manageHook = myManageHook <+> manageHook def
+-------------------- dzen
         , manageHook = manageDocks <+> manageHook def
         , layoutHook = avoidStruts myLayouts
-        , logHook = dynamicLogWithPP defaultPP 
+        , logHook = workspaceNamesPP dzenPP 
                         { ppOutput = hPutStrLn xmonadbar
                         , ppCurrent = dzenColor "#AAEE33" "" . pad
                         , ppVisible = dzenColor "#BBBBBB" "" . pad
@@ -66,7 +73,7 @@ main = do
                         , ppHidden = dzenColor "#558855" "" . pad
                         , ppHiddenNoWindows = const "" 
                         , ppUrgent = dzenColor "yellow" "red" . pad . dzenStrip -- urgency hook
-                        } 
+                        } >>= dynamicLogWithPP 
                         
 -------------------- other
         , workspaces = myWorkspaces
@@ -74,7 +81,7 @@ main = do
         }
 
 -------------------- workspaces
-myWorkspaces = withScreens 4 ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+myWorkspaces = ["1","2","3","4","5","6","7","8","9"]
 
 -------------------- layouts
 myLayouts = mkToggle (REFLECTX ?? REFLECTY ?? MIRROR ?? TABBED ?? FULL ?? EOT)
@@ -102,13 +109,15 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
   M.fromList
   $     [ -- run stuff
           ((modm .|. shiftMask, xK_l), spawn "xscreensaver-command -lock") -- super+shift+l = lock
-        , ((modm, xK_Print), spawn "sleep 0.2; scrot -s") -- super + printscreen = screenshot of window
-        , ((0, xK_Print), spawn "scrot") -- printscreen = screenshot of everything. screenshot reqs "scrot"
+        , ((modm, xK_Print), spawn "sleep 0.2; scrot -s -e 'mv $f ~/screenshots/'") -- super + printscreen = screenshot of window
+        , ((0, xK_Print), spawn "scrot -e 'mv $f ~/screenshots/'") -- printscreen = screenshot of everything. screenshot reqs "scrot"
         , ((modm, xK_a), runOrRaise "emacs" (className =? "Emacs")) -- Go to window if it exists, or open new one.
         , ((modm .|. shiftMask, xK_a), spawn "emacsclient -c") -- emacsclient
         , ((modm, xK_s), runOrRaise "firefox" (className =? "Firefox" <||> className =? "Firefox-bin" <||> className =? "Navigator"))
+        , ((modm .|. shiftMask, xK_s), spawn "firefox")
         , ((modm, xK_d), spawn "rofi -show run")
         , ((modm .|. shiftMask, xK_d), spawn "dmenu_run")
+        , ((modm .|. shiftMask, xK_r), renameWorkspace defaultXPConfig) -- Rename a workspace
 
           -- MPD commands. Requires MPD/Mopidy running with MPC installed.
           -- Based on ncmpcpp keybindings.
@@ -148,12 +157,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         , ((modm,                 xK_y), sendMessage $ Toggle REFLECTY)
         ]
 
-          -- workspace control
-      ++ [((m .|. modm, k), windows $ onCurrentScreen f i)
-         | (i, k) <- zip (workspaces' conf) [xK_1, xK_2, xK_3, xK_4, xK_5, xK_6, xK_7, xK_8, xK_9, xK_0]
-         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
-         ]
-     ++ [((modm .|. mask, key), f sc)
-        | (key, sc) <- zip [xK_w, xK_e] [0..]
-        , (f, mask) <- [(viewScreen, 0), (sendToScreen, shiftMask)]
-        ]
+          -- Shift focus keybindings
+        ++ [((m .|. modm, k), windows $ f i) 
+           | (i, k) <- zip myWorkspaces [xK_1 .. xK_9]
+           , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
