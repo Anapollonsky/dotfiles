@@ -8,4 +8,5 @@ xhost +local:
 xrdb ~/.Xresources
 xscreensaver&
 autocutsel&
+xrandr --dpi 96
 exec xmonad

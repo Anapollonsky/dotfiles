@@ -36,7 +36,6 @@ import XMonad.Layout.Reflect
 import XMonad.Actions.WindowBringer
 import XMonad.Actions.WindowGo
 import XMonad.Actions.WorkspaceNames
--- import XMonad.Layout.Spacing
 import XMonad.Util.Run
 import XMonad.Util.WorkspaceCompare
 
@@ -106,13 +105,13 @@ instance Transformer TABBED Window where
 
 -------------------- keybindings
 myKeys conf@(XConfig {XMonad.modMask = modm}) =
-  M.fromList
-  $     [ -- run stuff
+  M.fromList $ [ -- run stuff
           ((modm .|. shiftMask, xK_l), spawn "xscreensaver-command -lock") -- super+shift+l = lock
         , ((modm, xK_Print), spawn "sleep 0.2; scrot -s -e 'mv $f ~/screenshots/'") -- super + printscreen = screenshot of window
         , ((0, xK_Print), spawn "scrot -e 'mv $f ~/screenshots/'") -- printscreen = screenshot of everything. screenshot reqs "scrot"
         , ((modm, xK_a), runOrRaise "emacs" (className =? "Emacs")) -- Go to window if it exists, or open new one.
         , ((modm .|. shiftMask, xK_a), spawn "emacsclient -c") -- emacsclient
+        , ((modm, xK_o), spawn "emacsclient -c -e '(progn (oad-theme\"leuven\"))'")  -- org-mode
         , ((modm, xK_s), runOrRaise "firefox" (className =? "Firefox" <||> className =? "Firefox-bin" <||> className =? "Navigator"))
         , ((modm .|. shiftMask, xK_s), spawn "firefox")
         , ((modm, xK_d), spawn "rofi -show run")
