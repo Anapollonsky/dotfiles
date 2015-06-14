@@ -111,7 +111,6 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         , ((0, xK_Print), spawn "scrot -e 'mv $f ~/screenshots/'") -- printscreen = screenshot of everything. screenshot reqs "scrot"
         , ((modm, xK_a), runOrRaise "emacs" (className =? "Emacs")) -- Go to window if it exists, or open new one.
         , ((modm .|. shiftMask, xK_a), spawn "emacsclient -c") -- emacsclient
-        , ((modm, xK_o), spawn "emacsclient -c -e '(progn (oad-theme\"leuven\"))'")  -- org-mode
         , ((modm, xK_s), runOrRaise "firefox" (className =? "Firefox" <||> className =? "Firefox-bin" <||> className =? "Navigator"))
         , ((modm .|. shiftMask, xK_s), spawn "firefox")
         , ((modm, xK_d), spawn "rofi -show run")
