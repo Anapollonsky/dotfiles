@@ -8,10 +8,10 @@ dzen2.foreground: #CCCCFF
 URxvt.depth: 32
 
 URxvt.font: xft:DejaVu Sans Mono:size=12:antialias=true
-URxvt.foreground: #D5D5F5
+URxvt.foreground: #EEEEFF
 URxvt.letterSpace: -1
 
-URxvt.background: #171722
+URxvt.background: [97]#171722
 URxvt.scrollBar: false
 
 URxvt*pointerColor: #000000

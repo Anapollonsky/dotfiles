@@ -47,13 +47,13 @@ main = do
            $ def
         {
 -------------------- basics
-          -- terminal = "termite"
-          terminal = "emacsclient -c -e '(progn \
-                                          \(persp-switch \"terminals\") \
-                                          \(multi-term) \
-                                          \(set-background-color \"#070711\") \
-                                          \(spacemacs/toggle-transparent-frame) \
-                                          \(spacemacs/toggle-centered-point))'"
+          terminal = "urxvtc"
+          -- terminal = "emacsclient -c -e '(progn \
+          --                                 \(persp-switch \"terminals\") \
+          --                                 \(multi-term) \
+          --                                 \(set-background-color \"#070711\") \
+          --                                 \(spacemacs/toggle-transparent-frame) \
+          --                                 \(spacemacs/toggle-centered-point))'"
         , modMask = mod4Mask -- windows as mod key
         , focusedBorderColor = "#AAAAFF"
         , normalBorderColor = "#222255"
