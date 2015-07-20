@@ -25,14 +25,17 @@ URxvt.secondaryScreen: 1
 URxvt.secondaryScroll: 0
 
 URxvt.perl-lib: /usr/lib64/urxvt/perl/
+URxvt.perl-ext-common: ...,keyboard-select,clipboard,url-select
 ! Selection tools for urxvt. Requires keyboard-select from urxvt-perls
-URxvt.perl-ext-common: ...,keyboard-select, clipboard
-URxvt.keysym.M-Escape: perl:keyboard-select: activate
+URxvt.keysym.M-Escape: perl:keyboard-select:activate
 
 ! Allow proper copy/paste. Requires clipboard from urxvt-perls
-URxvt.keysym.M-c:   perl:clipboard:copy
-URxvt.keysym.M-v:   perl:clipboard:paste
-URxvt.keysym.M-C-v: perl:clipboard:paste_escaped
+URxvt.keysym.M-w:   perl:clipboard:copy
+URxvt.keysym.M-y:   perl:clipboard:paste
+URxvt.keysym.M-C-y: perl:clipboard:paste_escaped
+
+! Handle URLs from the terminal. Requires url-select from urxvt--perls
+URxvt.keysym.M-u: perl:url-select:select_next
 
 ! This will cause the shell to be started as a login shell, like the option -ls.
 URxvt*loginShell: true
