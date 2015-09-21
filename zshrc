@@ -15,3 +15,7 @@ if [ -n "$INSIDE_EMACS" ]; then
     print -P "\033AnSiTu %n"
     print -P "\033AnSiTc %d"
 fi
+
+export PATH=/workspace/env:/workspace/bin:/workspace/tools:~/.cabal/bin:$PATH
+export AD_USERNAME=andrew.apollonsky
+source $HOME/.yodle-dev-shell-utils/conf/sh/all
