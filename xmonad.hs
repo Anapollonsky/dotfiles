@@ -22,9 +22,11 @@ import XMonad
 import XMonad.Prompt
 import XMonad.Actions.PhysicalScreens
 import XMonad.Actions.Navigation2D
+import XMonad.Config.Xfce
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.UrgencyHook
+import XMonad.Hooks.EwmhDesktops
 import XMonad.Layout.IndependentScreens
 import XMonad.Layout.MultiToggle -- requires DeriveDataTypeable
 import XMonad.Layout.MultiToggle.Instances
@@ -41,8 +43,8 @@ import XMonad.Util.WorkspaceCompare
 
 
 main = do
-    xmonadbar <- spawnPipe "dzen2 -ta l -h 22 -w 420"
-    conkybar <- spawnPipe "conky | dzen2 -ta r -h 22 -x 420 -w 1500"
+    -- xmonadbar <- spawnPipe "dzen2 -ta l -h 22 -w 420"
+    -- conkybar <- spawnPipe "conky | dzen2 -ta r -h 22 -x 420 -w 1500"
     xmonad $ withUrgencyHook NoUrgencyHook
            $ def
         {
@@ -62,17 +64,19 @@ main = do
 -------------------- dzen
         , manageHook = manageDocks <+> manageHook def
         , layoutHook = avoidStruts myLayouts
-        , logHook = workspaceNamesPP dzenPP 
-                        { ppOutput = hPutStrLn xmonadbar
-                        , ppCurrent = dzenColor "#AAEE33" "" . pad
-                        , ppVisible = dzenColor "#BBBBBB" "" . pad
-                        , ppTitle = dzenColor "#AAEE33" "" . shorten 40
-                        , ppLayout = dzenColor "orange" "" . pad
-                        , ppSort = getSortByTag
-                        , ppHidden = dzenColor "#558855" "" . pad
-                        , ppHiddenNoWindows = const "" 
-                        , ppUrgent = dzenColor "yellow" "red" . pad . dzenStrip -- urgency hook
-                        } >>= dynamicLogWithPP 
+        -- , logHook = workspaceNamesPP dzenPP 
+        --                 { ppOutput = hPutStrLn xmonadbar
+        --                 , ppCurrent = dzenColor "#AAEE33" "" . pad
+        --                 , ppVisible = dzenColor "#BBBBBB" "" . pad
+        --                 , ppTitle = dzenColor "#AAEE33" "" . shorten 40
+        --                 , ppLayout = dzenColor "orange" "" . pad
+        --                 , ppSort = getSortByTag
+        --                 , ppHidden = dzenColor "#558855" "" . pad
+        --                 , ppHiddenNoWindows = const "" 
+        --                 , ppUrgent = dzenColor "yellow" "red" . pad . dzenStrip -- urgency hook
+        --                 } >>= dynamicLogWithPP
+        , logHook = ewmhDesktopsLogHook
+        , startupHook = ewmhDesktopsStartup
                         
 -------------------- other
         , workspaces = myWorkspaces
@@ -146,6 +150,9 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         , ((modm .|. shiftMask,   xK_Left ), windowToScreen L True)
         , ((modm .|. shiftMask,   xK_Up   ), windowToScreen U True)
         , ((modm .|. shiftMask,   xK_Down ), windowToScreen D True)
+
+        --   -- xfce
+        -- , ((modm .|. shiftMask, xK_q), spawn "xfce4-session-logout")
 
           -- Multi-Toggle Modes
         , ((modm,                 xK_n), sendMessage $ Toggle MIRROR)
