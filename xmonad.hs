@@ -27,6 +27,7 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.UrgencyHook
 import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.SetWMName
 import XMonad.Layout.IndependentScreens
 import XMonad.Layout.MultiToggle -- requires DeriveDataTypeable
 import XMonad.Layout.MultiToggle.Instances
@@ -43,19 +44,12 @@ import XMonad.Util.WorkspaceCompare
 
 
 main = do
-    -- xmonadbar <- spawnPipe "dzen2 -ta l -h 22 -w 420"
-    -- conkybar <- spawnPipe "conky | dzen2 -ta r -h 22 -x 420 -w 1500"
+    xfcepanel <- spawnPipe "sleep 1 && kill `pidof xfce4-panel`; sleep 1 && xfce4-panel --disable-wm-check"
     xmonad $ withUrgencyHook NoUrgencyHook
            $ def
         {
 -------------------- basics
-          terminal = "urxvtc"
-          -- terminal = "emacsclient -c -e '(progn \
-          --                                 \(persp-switch \"terminals\") \
-          --                                 \(multi-term) \
-          --                                 \(set-background-color \"#070711\") \
-          --                                 \(spacemacs/toggle-transparent-frame) \
-          --                                 \(spacemacs/toggle-centered-point))'"
+          terminal = "urxvt"
         , modMask = mod4Mask -- windows as mod key
         , focusedBorderColor = "#AAAAFF"
         , normalBorderColor = "#222255"
@@ -64,20 +58,8 @@ main = do
 -------------------- dzen
         , manageHook = manageDocks <+> manageHook def
         , layoutHook = avoidStruts myLayouts
-        -- , logHook = workspaceNamesPP dzenPP 
-        --                 { ppOutput = hPutStrLn xmonadbar
-        --                 , ppCurrent = dzenColor "#AAEE33" "" . pad
-        --                 , ppVisible = dzenColor "#BBBBBB" "" . pad
-        --                 , ppTitle = dzenColor "#AAEE33" "" . shorten 40
-        --                 , ppLayout = dzenColor "orange" "" . pad
-        --                 , ppSort = getSortByTag
-        --                 , ppHidden = dzenColor "#558855" "" . pad
-        --                 , ppHiddenNoWindows = const "" 
-        --                 , ppUrgent = dzenColor "yellow" "red" . pad . dzenStrip -- urgency hook
-        --                 } >>= dynamicLogWithPP
         , logHook = ewmhDesktopsLogHook
-        , startupHook = ewmhDesktopsStartup
-                        
+        , startupHook = ewmhDesktopsStartup >> setWMName "LG3D"
 -------------------- other
         , workspaces = myWorkspaces
         , keys = \c -> myKeys c `M.union` keys def c
@@ -115,11 +97,12 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         , ((0, xK_Print), spawn "scrot -e 'mv $f ~/screenshots/'") -- printscreen = screenshot of everything. screenshot reqs "scrot"
         , ((modm, xK_a), runOrRaise "emacs" (className =? "Emacs")) -- Go to window if it exists, or open new one.
         , ((modm .|. shiftMask, xK_a), spawn "emacsclient -c") -- emacsclient
-        , ((modm, xK_s), runOrRaise "firefox" (className =? "Firefox" <||> className =? "Firefox-bin" <||> className =? "Navigator"))
+        -- , ((modm, xK_s), runOrRaise "firefox" (className =? "Firefox" <||> className =? "Firefox-bin" <||> className =? "Navigator"))
+        , ((modm, xK_s), runOrRaise "chrome" (className =? "Firefox" <||> className =? "Firefox-bin" <||> className =? "Navigator"))
         , ((modm .|. shiftMask, xK_s), spawn "firefox")
         , ((modm, xK_d), spawn "rofi -show run")
         , ((modm .|. shiftMask, xK_d), spawn "dmenu_run")
-        , ((modm .|. shiftMask, xK_r), renameWorkspace defaultXPConfig) -- Rename a workspace
+        -- , ((modm .|. shiftMask, xK_r), renameWorkspace defaultXPConfig) -- Rename a workspace
 
           -- MPD commands. Requires MPD/Mopidy running with MPC installed.
           -- Based on ncmpcpp keybindings.
@@ -128,7 +111,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         , ((modm .|. shiftMask, xK_comma ), spawn "mpc prev")  
         , ((modm, xK_z), spawn "mpc random")
         , ((modm .|. shiftMask, xK_z), spawn "mpc shuffle")
-        , ((modm .|. shiftMask, xK_r), spawn "mpc repeat")
+        -- , ((modm .|. shiftMask, xK_r), spawn "mpc repeat")
         , ((modm .|. shiftMask, xK_y), spawn "mpc single")
         , ((modm .|. shiftMask, xK_equal), spawn "mpc volume +5")
         , ((modm, xK_minus), spawn "mpc volume -5")
@@ -150,9 +133,6 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         , ((modm .|. shiftMask,   xK_Left ), windowToScreen L True)
         , ((modm .|. shiftMask,   xK_Up   ), windowToScreen U True)
         , ((modm .|. shiftMask,   xK_Down ), windowToScreen D True)
-
-        --   -- xfce
-        -- , ((modm .|. shiftMask, xK_q), spawn "xfce4-session-logout")
 
           -- Multi-Toggle Modes
         , ((modm,                 xK_n), sendMessage $ Toggle MIRROR)
