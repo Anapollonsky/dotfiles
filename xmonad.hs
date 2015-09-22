@@ -54,7 +54,7 @@ main = do
         , focusedBorderColor = "#AAAAFF"
         , normalBorderColor = "#222255"
         , borderWidth = 1
-                        
+
 -------------------- dzen
         , manageHook = manageDocks <+> manageHook def
         , layoutHook = avoidStruts myLayouts
@@ -66,7 +66,7 @@ main = do
         }
 
 -------------------- workspaces
-myWorkspaces = ["1","2","3","4","5","6","7","8","9"]
+myWorkspaces = withScreens 3 ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 
 -------------------- layouts
 myLayouts = mkToggle (REFLECTX ?? REFLECTY ?? MIRROR ?? TABBED ?? FULL ?? EOT)
@@ -81,7 +81,7 @@ myTabConfig = def {
 , activeBorderColor = "#AAEE33"
 , activeColor = "#303030"
 , inactiveColor = "#101010"
-, decoHeight = 20 
+, decoHeight = 20
 , fontName = "xft:DejaVu Sans Mono:size=11:antialias=true"
 }
 
@@ -108,7 +108,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
           -- Based on ncmpcpp keybindings.
         , ((modm, xK_p), spawn "mpc toggle")
         , ((modm .|. shiftMask, xK_period), spawn "mpc next")
-        , ((modm .|. shiftMask, xK_comma ), spawn "mpc prev")  
+        , ((modm .|. shiftMask, xK_comma ), spawn "mpc prev")
         , ((modm, xK_z), spawn "mpc random")
         , ((modm .|. shiftMask, xK_z), spawn "mpc shuffle")
         -- , ((modm .|. shiftMask, xK_r), spawn "mpc repeat")
@@ -116,10 +116,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         , ((modm .|. shiftMask, xK_equal), spawn "mpc volume +5")
         , ((modm, xK_minus), spawn "mpc volume -5")
 
-         -- Bring/Goto open windows 
+         -- Bring/Goto open windows
         , ((modm, xK_g), gotoMenu' "rofi_dmenu")
         , ((modm .|. shiftMask, xK_g), bringMenu' "rofi_dmenu")
-         
+
           -- directional navigation of windows
         , ((modm,                 xK_Right), windowGo R True)
         , ((modm,                 xK_Left ), windowGo L True)
@@ -142,7 +142,17 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         , ((modm,                 xK_y), sendMessage $ Toggle REFLECTY)
         ]
 
-          -- Shift focus keybindings
-        ++ [((m .|. modm, k), windows $ f i) 
-           | (i, k) <- zip myWorkspaces [xK_1 .. xK_9]
-           , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
+        --   -- Shift focus keybindings
+        -- ++ [((m .|. modm, k), windows $ f i)
+        --    | (i, k) <- zip myWorkspaces [xK_1 .. xK_9]
+        --    , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
+
+          -- workspace control
+      ++ [((m .|. modm, k), windows $ onCurrentScreen f i)
+         | (i, k) <- zip (workspaces' conf) [xK_1, xK_2, xK_3, xK_4, xK_5, xK_6, xK_7, xK_8, xK_9, xK_0]
+         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
+         ]
+     ++ [((modm .|. mask, key), f sc)
+        | (key, sc) <- zip [xK_w, xK_e] [0..]
+        , (f, mask) <- [(viewScreen, 0), (sendToScreen, shiftMask)]
+        ]
