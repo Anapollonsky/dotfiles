@@ -95,7 +95,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
           ((modm .|. shiftMask, xK_l), spawn "xscreensaver-command -lock") -- super+shift+l = lock
         , ((modm, xK_Print), spawn "sleep 0.2; scrot -s -e 'mv $f ~/screenshots/'") -- super + printscreen = screenshot of window
         , ((0, xK_Print), spawn "scrot -e 'mv $f ~/screenshots/'") -- printscreen = screenshot of everything. screenshot reqs "scrot"
-        , ((modm, xK_a), runOrRaise "emacs" (className =? "Emacs")) -- Go to window if it exists, or open new one.
+        , ((modm, xK_a), runOrRaise "emacs-24.5" (className =? "Emacs")) -- Go to window if it exists, or open new one.
         , ((modm .|. shiftMask, xK_a), spawn "emacsclient -c") -- emacsclient
         -- , ((modm, xK_s), runOrRaise "firefox" (className =? "Firefox" <||> className =? "Firefox-bin" <||> className =? "Navigator"))
         , ((modm, xK_s), runOrRaise "chrome" (className =? "Firefox" <||> className =? "Firefox-bin" <||> className =? "Navigator"))
