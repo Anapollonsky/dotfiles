@@ -21,3 +21,4 @@ export AD_USERNAME=andrew.apollonsky
 source $HOME/.yodle-dev-shell-utils/conf/sh/all
 alias java6="export JAVA_HOME=/usr/lib/jvm/java-6-oracle && sudo rm /etc/alternatives/java && sudo ln -s /usr/lib/jvm/java-6-oracle/bin/java /etc/alternatives/java"
 alias java8="export JAVA_HOME=/usr/lib/jvm/java-8-oracle && sudo rm /etc/alternatives/java && sudo ln -s /usr/lib/jvm/java-8-oracle/bin/java /etc/alternatives/java"
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
