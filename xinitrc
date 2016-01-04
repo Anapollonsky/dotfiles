@@ -6,5 +6,5 @@ xrdb ~/.Xresources
 xscreensaver&
 autocutsel&
 urxvtd&
-feh --bg-scale ~/dotfiles/background.jpg
+feh --randomize --bg-fill ~/dotfiles/wallpapers/*
 exec xmonad
