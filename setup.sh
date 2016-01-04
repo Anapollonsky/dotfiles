@@ -16,10 +16,11 @@ mkdir -p $HOME_DIR/.xmonad
 # Associative array mapping each dotfile to its destination.
 typeset -A file_dest_map
 file_dest_map=($SCRIPT_DIR/zshrc $HOME_DIR/.zshrc
+               $SCRIPT_DIR/profile $HOME_DIR/.profile
                $SCRIPT_DIR/xmonad.hs $HOME_DIR/.xmonad/xmonad.hs
                $SCRIPT_DIR/xprofile $HOME_DIR/.xprofile
-               $SCRIPT_DIR/zpreztorc $HOME_DIR/.zpreztorc 
-               $SCRIPT_DIR/tmux.conf $HOME_DIR/.tmux.conf 
+               $SCRIPT_DIR/zpreztorc $HOME_DIR/.zpreztorc
+               $SCRIPT_DIR/tmux.conf $HOME_DIR/.tmux.conf
                $SCRIPT_DIR/xmobarrc $HOME_DIR/.xmobarrc
                $SCRIPT_DIR/xinitrc $HOME_DIR/.xinitrc
                $SCRIPT_DIR/mopidy.conf $HOME_DIR/.config/mopidy/mopidy.conf
@@ -29,14 +30,14 @@ file_dest_map=($SCRIPT_DIR/zshrc $HOME_DIR/.zshrc
                $SCRIPT_DIR/Xresources $HOME_DIR/.Xresources
                $SCRIPT_DIR/conkyrc $HOME_DIR/.conkyrc
                $SCRIPT_DIR/dunstrc $HOME_DIR/.config/dunst/dunstrc
-               $SCRIPT_DIR/rofi_dmenu /usr/bin/rofi_dmenu # Messy 
+               $SCRIPT_DIR/rofi_dmenu /usr/bin/rofi_dmenu # Messy
               )
 
 # install the configuration files
 if [[ $# -eq 1 && $1 = "install" ]]  || [[ $# -eq 0 ]]
 then
     echo "Performing install operation..."
-    echo "Treating $HOME_DIR as home and $SCRIPT_DIR as config file directory for install..."    
+    echo "Treating $HOME_DIR as home and $SCRIPT_DIR as config file directory for install..."
     for k in "${(@k)file_dest_map}"; do # http://superuser.com/questions/737350/iterating-over-keys-or-k-v-pairs-in-zsh-associative-array
         ln -sv $k $file_dest_map[$k]
     done
@@ -46,7 +47,7 @@ then
     fi
     exit 0
     chmod 755 /usr/bin/rofi_dmenu
-    
+
 fi
 
 # remove configuration files...
@@ -61,8 +62,8 @@ then
     fi
     # Loop through the files, move them to the backup folder.
     for k in $file_dest_map; do
-        mv -vb $k $SCRIPT_DIR/backup/ 
-    done    
+        mv -vb $k $SCRIPT_DIR/backup/
+    done
     exit 0
 fi
 
