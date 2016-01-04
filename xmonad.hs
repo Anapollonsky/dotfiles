@@ -58,11 +58,11 @@ main = do
         , focusedBorderColor = "#AAAAFF"
         , normalBorderColor = "#222255"
         , borderWidth = 1
-                        
+
 -------------------- dzen
         , manageHook = manageDocks <+> manageHook def
         , layoutHook = avoidStruts myLayouts
-        , logHook = workspaceNamesPP dzenPP 
+        , logHook = workspaceNamesPP dzenPP
                         { ppOutput = hPutStrLn xmonadbar
                         , ppCurrent = dzenColor "#AAEE33" "" . pad
                         , ppVisible = dzenColor "#BBBBBB" "" . pad
@@ -70,10 +70,10 @@ main = do
                         , ppLayout = dzenColor "orange" "" . pad
                         , ppSort = getSortByTag
                         , ppHidden = dzenColor "#558855" "" . pad
-                        , ppHiddenNoWindows = const "" 
+                        , ppHiddenNoWindows = const ""
                         , ppUrgent = dzenColor "yellow" "red" . pad . dzenStrip -- urgency hook
-                        } >>= dynamicLogWithPP 
-                        
+                        } >>= dynamicLogWithPP
+
 -------------------- other
         , workspaces = myWorkspaces
         , keys = \c -> myKeys c `M.union` keys def c
@@ -95,7 +95,7 @@ myTabConfig = def {
 , activeBorderColor = "#AAEE33"
 , activeColor = "#303030"
 , inactiveColor = "#101010"
-, decoHeight = 20 
+, decoHeight = 20
 , fontName = "xft:DejaVu Sans Mono:size=11:antialias=true"
 }
 
@@ -121,7 +121,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
           -- Based on ncmpcpp keybindings.
         , ((modm, xK_p), spawn "mpc toggle")
         , ((modm .|. shiftMask, xK_period), spawn "mpc next")
-        , ((modm .|. shiftMask, xK_comma ), spawn "mpc prev")  
+        , ((modm .|. shiftMask, xK_comma ), spawn "mpc prev")
         , ((modm, xK_z), spawn "mpc random")
         , ((modm .|. shiftMask, xK_z), spawn "mpc shuffle")
         , ((modm .|. shiftMask, xK_r), spawn "mpc repeat")
@@ -129,10 +129,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         , ((modm .|. shiftMask, xK_equal), spawn "mpc volume +5")
         , ((modm, xK_minus), spawn "mpc volume -5")
 
-         -- Bring/Goto open windows 
+         -- Bring/Goto open windows
         , ((modm, xK_g), gotoMenu' "rofi_dmenu")
         , ((modm .|. shiftMask, xK_g), bringMenu' "rofi_dmenu")
-         
+
           -- directional navigation of windows
         , ((modm,                 xK_Right), windowGo R True)
         , ((modm,                 xK_Left ), windowGo L True)
@@ -156,6 +156,6 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         ]
 
           -- Shift focus keybindings
-        ++ [((m .|. modm, k), windows $ f i) 
+        ++ [((m .|. modm, k), windows $ f i)
            | (i, k) <- zip myWorkspaces [xK_1 .. xK_9]
            , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
