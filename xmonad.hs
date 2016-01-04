@@ -25,6 +25,7 @@ import XMonad.Actions.Navigation2D
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.UrgencyHook
+import XMonad.Hooks.SetWMName
 import XMonad.Layout.IndependentScreens
 import XMonad.Layout.MultiToggle -- requires DeriveDataTypeable
 import XMonad.Layout.MultiToggle.Instances
@@ -48,12 +49,6 @@ main = do
         {
 -------------------- basics
           terminal = "urxvtc"
-          -- terminal = "emacsclient -c -e '(progn \
-          --                                 \(persp-switch \"terminals\") \
-          --                                 \(multi-term) \
-          --                                 \(set-background-color \"#070711\") \
-          --                                 \(spacemacs/toggle-transparent-frame) \
-          --                                 \(spacemacs/toggle-centered-point))'"
         , modMask = mod4Mask -- windows as mod key
         , focusedBorderColor = "#AAAAFF"
         , normalBorderColor = "#222255"
@@ -73,14 +68,14 @@ main = do
                         , ppHiddenNoWindows = const ""
                         , ppUrgent = dzenColor "yellow" "red" . pad . dzenStrip -- urgency hook
                         } >>= dynamicLogWithPP
-
+        , startupHook = setWMName "LG3D"
 -------------------- other
         , workspaces = myWorkspaces
         , keys = \c -> myKeys c `M.union` keys def c
         }
 
 -------------------- workspaces
-myWorkspaces = ["1","2","3","4","5","6","7","8","9"]
+myWorkspaces = withScreens 3 ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 
 -------------------- layouts
 myLayouts = mkToggle (REFLECTX ?? REFLECTY ?? MIRROR ?? TABBED ?? FULL ?? EOT)
@@ -111,11 +106,12 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         , ((0, xK_Print), spawn "scrot -e 'mv $f ~/screenshots/'") -- printscreen = screenshot of everything. screenshot reqs "scrot"
         , ((modm, xK_a), runOrRaise "emacs" (className =? "Emacs")) -- Go to window if it exists, or open new one.
         , ((modm .|. shiftMask, xK_a), spawn "emacsclient -c") -- emacsclient
-        , ((modm, xK_s), runOrRaise "firefox" (className =? "Firefox" <||> className =? "Firefox-bin" <||> className =? "Navigator"))
-        , ((modm .|. shiftMask, xK_s), spawn "firefox")
+        -- , ((modm, xK_s), runOrRaise "firefox" (className =? "Firefox" <||> className =? "Firefox-bin" <||> className =? "Navigator"))
+        , ((modm, xK_s), runOrRaise "google-chrome-stable" (className =? "Firefox" <||> className =? "Firefox-bin" <||> className =? "Navigator"))
+        , ((modm .|. shiftMask, xK_s), spawn "google-chrome-stable")
         , ((modm, xK_d), spawn "rofi -show run")
         , ((modm .|. shiftMask, xK_d), spawn "dmenu_run")
-        , ((modm .|. shiftMask, xK_r), renameWorkspace defaultXPConfig) -- Rename a workspace
+        -- , ((modm .|. shiftMask, xK_r), renameWorkspace defaultXPConfig) -- Rename a workspace
 
           -- MPD commands. Requires MPD/Mopidy running with MPC installed.
           -- Based on ncmpcpp keybindings.
@@ -124,7 +120,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         , ((modm .|. shiftMask, xK_comma ), spawn "mpc prev")
         , ((modm, xK_z), spawn "mpc random")
         , ((modm .|. shiftMask, xK_z), spawn "mpc shuffle")
-        , ((modm .|. shiftMask, xK_r), spawn "mpc repeat")
+        -- , ((modm .|. shiftMask, xK_r), spawn "mpc repeat")
         , ((modm .|. shiftMask, xK_y), spawn "mpc single")
         , ((modm .|. shiftMask, xK_equal), spawn "mpc volume +5")
         , ((modm, xK_minus), spawn "mpc volume -5")
@@ -155,7 +151,12 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         , ((modm,                 xK_y), sendMessage $ Toggle REFLECTY)
         ]
 
-          -- Shift focus keybindings
-        ++ [((m .|. modm, k), windows $ f i)
-           | (i, k) <- zip myWorkspaces [xK_1 .. xK_9]
-           , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
+
+      ++ [((m .|. modm, k), windows $ onCurrentScreen f i)
+         | (i, k) <- zip (workspaces' conf) [xK_1, xK_2, xK_3, xK_4, xK_5, xK_6, xK_7, xK_8, xK_9, xK_0]
+         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
+         ]
+     ++ [((modm .|. mask, key), f sc)
+        | (key, sc) <- zip [xK_w, xK_e] [0..]
+        , (f, mask) <- [(viewScreen, 0), (sendToScreen, shiftMask)]
+        ]

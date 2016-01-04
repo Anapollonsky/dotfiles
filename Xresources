@@ -25,7 +25,7 @@ URxvt.secondaryScreen: 1
 URxvt.secondaryScroll: 0
 
 URxvt.perl-lib: /usr/lib64/urxvt/perl/
-URxvt.perl-ext-common: ...,keyboard-select,clipboard,url-select
+URxvt.perl-ext-common: keyboard-select,clipboard,url-select
 ! Selection tools for urxvt. Requires keyboard-select from urxvt-perls
 URxvt.keysym.M-Escape: perl:keyboard-select:activate
 

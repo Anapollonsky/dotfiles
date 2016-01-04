@@ -26,6 +26,7 @@ file_dest_map=($SCRIPT_DIR/zshrc $HOME_DIR/.zshrc
                $SCRIPT_DIR/mopidy.conf $HOME_DIR/.config/mopidy/mopidy.conf
                $SCRIPT_DIR/mpdconf $HOME_DIR/.config/mpdconf
                $SCRIPT_DIR/termite $HOME_DIR/.config/termite/config
+               $SCRIPT_DIR/leinprofiles.clj $HOME_DIR/.lein/profiles.clj
                $SCRIPT_DIR/pentadactylrc $HOME_DIR/.pentadactylrc
                $SCRIPT_DIR/Xresources $HOME_DIR/.Xresources
                $SCRIPT_DIR/conkyrc $HOME_DIR/.conkyrc
