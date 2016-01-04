@@ -8,6 +8,7 @@ total_run_times 0
 
 
 TEXT
+^fg(orange)Battery: ^fg(\#AAEE33)${battery_percent BAT1}%    \
 ^fg(orange)RAM: ^fg(\#AAEE33)$mem^fg(orange)/^fg(\#AAEE33)$memmax    \
 ^fg(orange)CPU:^fg(\#AAEE33) $cpu%    \
 ^fg(\#AAEE33)${fs_used /}^fg(orange)/^fg(\#AAEE33)${fs_size /}    \
