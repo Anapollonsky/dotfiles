@@ -7,4 +7,5 @@ source ~/.localxinitrc
 xhost +local:
 xrdb ~/.Xresources
 feh --randomize --bg-fill ~/dotfiles/wallpapers/*
+# nm-applet&
 exec xmonad

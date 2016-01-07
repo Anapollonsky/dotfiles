@@ -16,3 +16,4 @@ if [ -n "$INSIDE_EMACS" ]; then
 fi
 
 alias ec="emacsclient -nw"
+source ~/.profile

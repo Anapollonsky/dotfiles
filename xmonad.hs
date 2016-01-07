@@ -42,8 +42,12 @@ import XMonad.Util.WorkspaceCompare
 
 
 main = do
+    spawn "pkill stalonetray; pkill nm-applet;"
+    -- spawn "pkill -TERM -P `pgrep -o xmonad`"
     xmonadbar <- spawnPipe "dzen2 -ta l -h 22 -w 420"
     conkybar <- spawnPipe "conky | dzen2 -ta r -h 22 -x 420 -w 1500"
+    spawn "sleep .5 && stalonetray --geometry 7x1+600 --icon-size 22 &"
+    spawn "sleep .5 && nm-applet &"
     xmonad $ withUrgencyHook NoUrgencyHook
            $ def
         {
@@ -61,7 +65,7 @@ main = do
                         { ppOutput = hPutStrLn xmonadbar
                         , ppCurrent = dzenColor "#AAEE33" "" . pad
                         , ppVisible = dzenColor "#BBBBBB" "" . pad
-                        , ppTitle = dzenColor "#AAEE33" "" . shorten 40
+                        , ppTitle = dzenColor "#AAEE33" "" . shorten 80
                         , ppLayout = dzenColor "orange" "" . pad
                         , ppSort = getSortByTag
                         , ppHidden = dzenColor "#558855" "" . pad
@@ -73,6 +77,7 @@ main = do
         , workspaces = myWorkspaces
         , keys = \c -> myKeys c `M.union` keys def c
         }
+
 
 -------------------- workspaces
 myWorkspaces = withScreens 3 ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
