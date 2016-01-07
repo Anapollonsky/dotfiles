@@ -1,10 +1,10 @@
 mpd ~/.config/mpdconf&
-compton & # compton daemon
-source ~/.hs
-xhost +local:
-xrdb ~/.Xresources
+compton&
 xscreensaver&
 autocutsel&
 urxvtd&
+source ~/.localxinitrc
+xhost +local:
+xrdb ~/.Xresources
 feh --randomize --bg-fill ~/dotfiles/wallpapers/*
 exec xmonad
