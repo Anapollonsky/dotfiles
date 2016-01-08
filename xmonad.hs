@@ -46,7 +46,7 @@ main = do
     -- spawn "pkill -TERM -P `pgrep -o xmonad`"
     xmonadbar <- spawnPipe "dzen2 -ta l -h 22 -w 420"
     conkybar <- spawnPipe "conky | dzen2 -ta r -h 22 -x 420 -w 1500"
-    spawn "sleep .5 && stalonetray --geometry 7x1+600 --icon-size 22 &"
+    spawn "sleep .5 && stalonetray --background black --geometry 7x1+600 --icon-size 22 &"
     spawn "sleep .5 && nm-applet &"
     xmonad $ withUrgencyHook NoUrgencyHook
            $ def
