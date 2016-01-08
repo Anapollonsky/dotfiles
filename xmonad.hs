@@ -42,12 +42,11 @@ import XMonad.Util.WorkspaceCompare
 
 
 main = do
-    spawn "pkill stalonetray; pkill nm-applet;"
-    -- spawn "pkill -TERM -P `pgrep -o xmonad`"
-    xmonadbar <- spawnPipe "dzen2 -ta l -h 22 -w 420"
-    conkybar <- spawnPipe "conky | dzen2 -ta r -h 22 -x 420 -w 1500"
-    spawn "sleep .5 && stalonetray --background black --geometry 7x1+600 --icon-size 22 &"
-    spawn "sleep .5 && nm-applet &"
+    spawn "pkill stalonetray; pkill nm-applet; pkill dzen2;"
+    xmonadbar <- spawnPipe "sleep .5 && dzen2 -ta l -h 22 -w 970"
+    conkybar <- spawnPipe "sleep .5 && conky | dzen2 -ta l -h 22 -x 970 -w 950"
+    spawn "sleep 1 && stalonetray --background black --geometry 7x1+1766 --icon-size 22 &"
+    spawn "sleep 1 && nm-applet &"
     xmonad $ withUrgencyHook NoUrgencyHook
            $ def
         {
