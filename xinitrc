@@ -4,6 +4,7 @@ xscreensaver&
 autocutsel&
 urxvtd&
 dunst&
+blueberry&
 source ~/.localxinitrc
 xhost +local:
 xrdb ~/.Xresources
