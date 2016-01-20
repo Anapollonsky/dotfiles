@@ -76,7 +76,7 @@
     # The transparency of the window.  Range: [0; 100].
     # This option will only work if a compositing window manager is
     # present (e.g. xcompmgr, compiz, etc.).
-    transparency = 20
+    transparency = 10
 
     # Don't remove messages, if the user is idle (no mouse or keyboard input)
     # for longer than idle_threshold seconds.
@@ -156,7 +156,7 @@
 
 [frame]
     width = 1
-    color = "#FFFFFF"
+    color = "#000000"
 
 [shortcuts]
 
@@ -215,6 +215,7 @@
 # to "".
 # NOTE: It might be helpful to run dunst -print in a terminal in order
 # to find fitting options for rules.
+
 
 #[espeak]
 #    summary = "*"
