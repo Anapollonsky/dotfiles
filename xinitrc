@@ -9,4 +9,5 @@ source ~/.localxinitrc
 xhost +local:
 xrdb ~/.Xresources
 feh --randomize --bg-fill ~/dotfiles/wallpapers/*
+xcape -e 'Control_L=Escape'
 exec xmonad
