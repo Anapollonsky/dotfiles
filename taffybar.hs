@@ -36,11 +36,11 @@ main = do
   let clock = textClockNew Nothing "<span fgcolor='orange'>%a %b %_d %H:%M</span>" 1
       pager = taffyPagerNew defaultPagerConfig
       note = notifyAreaNew defaultNotificationConfig
-      wea = weatherNew (defaultWeatherConfig "KMSN") 10
+      wea = weatherNew wcfg 10
       mpris = mprisNew defaultMPRISConfig
       mem = pollingGraphNew memCfg 1 memCallback
       net = netMonitorNewWith 0.5 "enp4s0" 2 (formatNetworkInfo defaultNetFormat)
-      wifi = netMonitorNewWith 0.5 "wlp5s0" 2 (formatNetworkInfo defaultNetFormat)
+      -- wifi = netMonitorNewWith 0.5 "wlp5s0" 2 (formatNetworkInfo defaultNetFormat)
       cpu = pollingGraphNew cpuCfg 0.5 cpuCallback
       tray = systrayNew
       batBar = batteryBarNew batBarCfg 1
@@ -58,6 +58,10 @@ cpuCfg = defaultGraphConfig { graphDataColors = [ (0, 1, 0, 1)
                             , graphLabel = Just "cpu"
                             }
 
+wcfg = (defaultWeatherConfig "KMSN") {
+                              weatherTemplate = "$tempC$ C"
+                            }
+
 batBarCfg = (defaultBarConfig colorFunc)
     { barDirection = HORIZONTAL
     , barWidth = 48
@@ -70,31 +74,6 @@ batBarCfg = (defaultBarConfig colorFunc)
       | pct < 0.7 = (0.3, 0.7, 0.0)
       | pct == 1  = (0.5, 0.5, 1.0)
       | otherwise = (0.0, 1.0, 0.0)
-
-wifiMonitorNew = do
-    label <- pollingLabelNew "Wi-Fi" 0.5 pollWifiStr
-    widgetShowAll label
-    return $ toWidget label
-  where
-    format = formatNetworkInfo
-    pollWifiStr = do
-        essid <- maybePoll $ readProcess "iwgetid" ["-r"] ""
-        quality <- maybePoll $ getSignalQuality
-        return $ format (stripEnd '\n' essid ++ " " ++ stripEnd '.' quality)
-    stripEnd ch [] = []
-    stripEnd ch str
-        | [ch] `isSuffixOf` str = stripEnd ch $ init str
-        | otherwise = str
-    catchAny :: IO a -> (SomeException -> IO a) -> IO a
-    catchAny = Control.Exception.catch
-    maybePoll func = catchAny func (\_ -> return "-")
-    -- | Parse signal quality out of /proc/net/wireless
-    getSignalQuality :: IO String
-    getSignalQuality = do
-        infoLines <- lines <$> readFile "/proc/net/wireless"
-        if length infoLines >= 3
-           then return (words (infoLines !! 2) !! 2)
-           else return "no network"
 
 formatNetworkInfo :: String -> String
 formatNetworkInfo str = "<span color='yellow'>" ++ str ++ "</span>"
