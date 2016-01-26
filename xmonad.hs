@@ -40,14 +40,17 @@ import XMonad.Actions.WorkspaceNames
 import XMonad.Util.Run
 import XMonad.Util.WorkspaceCompare
 
+import XMonad.Hooks.EwmhDesktops        (ewmh)
+import System.Taffybar.Hooks.PagerHints (pagerHints)
+
 
 main = do
-    spawn "pkill stalonetray; pkill nm-applet; pkill dzen2;"
-    xmonadbar <- spawnPipe "sleep 1 && dzen2 -ta l -h 22 -w 970"
-    conkybar <- spawnPipe "sleep 1 && conky | dzen2 -ta l -h 22 -x 970 -w 796"
-    spawn "sleep 1 && stalonetray --background black --geometry 7x1+1766 --icon-size 22 &"
-    spawn "sleep 1 && nm-applet &"
-    xmonad $ withUrgencyHook NoUrgencyHook
+    -- spawn "pkill nm-applet;"
+    -- xmonadbar <- spawnPipe "sleep 1 && dzen2 -ta l -h 22 -w 970"
+    -- conkybar <- spawnPipe "sleep 1 && conky | dzen2 -ta l -h 22 -x 970 -w 796"
+    -- spawn "sleep 1 && stalonetray --background black --geometry 7x1+1766 --icon-size 22 &"
+    -- spawn "sleep 1 && nm-applet &"
+    xmonad $ withUrgencyHook NoUrgencyHook $ pagerHints $ ewmh
            $ def
         {
 -------------------- basics
@@ -61,8 +64,7 @@ main = do
         , manageHook = manageDocks <+> manageHook def
         , layoutHook = avoidStruts myLayouts
         , logHook = workspaceNamesPP dzenPP
-                        { ppOutput = hPutStrLn xmonadbar
-                        , ppCurrent = dzenColor "#AAEE33" "" . pad
+                        {ppCurrent = dzenColor "#AAEE33" "" . pad
                         , ppVisible = dzenColor "#BBBBBB" "" . pad
                         , ppTitle = dzenColor "#AAEE33" "" . shorten 80
                         , ppLayout = dzenColor "orange" "" . pad

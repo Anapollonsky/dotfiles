@@ -5,6 +5,8 @@ autocutsel&
 urxvtd&
 dunst&
 blueberry&
+taffybar&
+nm-applet&
 source ~/.localxinitrc
 xhost +local:
 xrdb ~/.Xresources
