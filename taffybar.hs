@@ -24,6 +24,9 @@ import System.Process
 import Graphics.UI.Gtk
 import Data.List
 
+
+
+
 memCallback = do
   mi <- parseMeminfo
   return [memoryUsedRatio mi]
