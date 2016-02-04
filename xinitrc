@@ -1,6 +1,6 @@
 mpd ~/.config/mpdconf&
 compton&
-xscreensaver&
+xscreensaver -no-splash &
 urxvtd&
 dunst&
 blueberry&
