@@ -10,7 +10,7 @@ HOME_DIR=$(getent passwd $SUDO_USER | cut -d: -f6)
 SCRIPT_PATH=$(readlink -f "$0")
 SCRIPT_DIR=$(dirname "$SCRIPT_PATH")
 
-mkdir -p $HOME_DIR/.config/{dunst,termite,mopidy}
+mkdir -p $HOME_DIR/.config/{dunst,termite,mopidy,taffybar}
 mkdir -p $HOME_DIR/.xmonad
 
 # Associative array mapping each dotfile to its destination.
@@ -44,10 +44,6 @@ then
     for k in "${(@k)file_dest_map}"; do # http://superuser.com/questions/737350/iterating-over-keys-or-k-v-pairs-in-zsh-associative-array
         ln -sv $k $file_dest_map[$k]
     done
-    if [[ ! -a $HOME_DIR/.ss ]]
-    then
-        touch $HOME_DIR/.ss
-    fi
     exit 0
     chmod 755 /usr/bin/rofi_dmenu
 

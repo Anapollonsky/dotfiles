@@ -1,7 +1,6 @@
 mpd ~/.config/mpdconf&
 compton&
 xscreensaver&
-autocutsel&
 urxvtd&
 dunst&
 blueberry&
