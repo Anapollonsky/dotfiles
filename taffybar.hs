@@ -21,7 +21,7 @@ import System.Information.Memory
 import System.Information.CPU
 
 import System.Process
-import Graphics.UI.Gtk
+-- import Graphics.UI.Gtk
 import Data.List
 
 
