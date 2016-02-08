@@ -61,7 +61,7 @@ cpuCfg = defaultGraphConfig { graphDataColors = [ (0, 1, 0, 1)
                             , graphLabel = Just "cpu"
                             }
 
-wcfg = (defaultWeatherConfig "KMSN") {
+wcfg = (defaultWeatherConfig "KJFK") {
                               weatherTemplate = "$tempC$ C"
                             }
 
