@@ -1,42 +1,21 @@
 " Settings
-set nohud
-set nosmoothscroll
+set hud
+set smoothscroll
 set noautofocus " The opposite of autofocus; this setting stops sites from focusing on an input box when they load
-set typelinkhints
+set dimhintcharacters
+set autohidescrolling
+let scrollduration = 300
 let searchlimit = 30
 let scrollstep = 70
 let barposition = "bottom"
 
+let completionengines = ["google", "amazon", "imdb", "wikipedia"]
 
-
-let completionengines = ["google", "amazon", "imdb", "dogpile"]
-
-" Open all of these in a tab with `gnb` or open one of these with <N>goa where <N>
-" let qmark a = ["http://www.reddit.com", "http://www.google.com", "http://twitter.com"]
-
-let blacklists = ["https://mail.google.com/*", "*://mail.google.com/*", "@https://mail.google.com/mail/*"]
 " blacklists prefixed by '@' act as a whitelist
+let blacklists = ["https://mail.google.com/*", "*://mail.google.com/*", "@https://mail.google.com/mail/*"]
 
 let mapleader = " "
 
 " Mappings
 map <Leader>r reloadTabUncached
 map <Leader>x :restore<Space>
-
-" This remaps the default 'j' mapping
-" map j scrollUp
-
-" You can use <Space>, which is interpreted as a
-" literal " " character, to enter buffer completion mode
-" map gb :buffer<Space>
-
-" The unmaps the default 'k' mapping
-" unmap k
-
-" This remaps the default 'f' mapping to the current 'F' mapping
-" map f F
-
-" Toggle the current HUD display value
-" map <C-h> :set hud!<CR>
-
-" Switch between alphabetical hint characters and numeric hints
