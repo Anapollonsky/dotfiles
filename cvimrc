@@ -1,21 +1,13 @@
 " Settings
 set nohud
 set nosmoothscroll
-set noautofocus " The opposite of autofocus; this setting stops
-                " sites from focusing on an input box when they load
+set noautofocus " The opposite of autofocus; this setting stops sites from focusing on an input box when they load
 set typelinkhints
 let searchlimit = 30
 let scrollstep = 70
 let barposition = "bottom"
 
-" let hintcharacters = ""
 
-" let searchengine dogpile = "http://www.dogpile.com/search/web?q=%s" " If you leave out the '%s' at the end of the URL,
-"                                                                     " your query will be appended to the link.
-"                                                                     " Otherwise, your query will replace the '%s'.
-
-" alias ':g' to ':tabnew google'
-" command g tabnew google
 
 let completionengines = ["google", "amazon", "imdb", "dogpile"]
 

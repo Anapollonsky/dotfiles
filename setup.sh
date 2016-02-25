@@ -34,7 +34,6 @@ file_dest_map=($SCRIPT_DIR/zshrc $HOME_DIR/.zshrc
                $SCRIPT_DIR/rofi_dmenu /usr/bin/rofi_dmenu # Messy
                $SCRIPT_DIR/taffybar.hs $HOME_DIR/.config/taffybar/taffybar.hs
                $SCRIPT_DIR/taffybar.rc $HOME_DIR/.config/taffybar/taffybar.rc
-               $SCRIPT_DIR/cvimrc $HOME_DIR/.cvimrc
               )
 
 # install the configuration files
