@@ -19,10 +19,6 @@ let barposition = "bottom"
 
 let completionengines = ["google", "amazon", "imdb", "dogpile"]
 
-let searchalias g = "google" " Create a shortcut for search engines.
-                             " For example, typing ':tabnew g example'
-                             " would act the same way as ':tabnew google example'
-
 " Open all of these in a tab with `gnb` or open one of these with <N>goa where <N>
 " let qmark a = ["http://www.reddit.com", "http://www.google.com", "http://twitter.com"]
 
@@ -40,7 +36,7 @@ map <Leader>x :restore<Space>
 
 " You can use <Space>, which is interpreted as a
 " literal " " character, to enter buffer completion mode
-map gb :buffer<Space>
+" map gb :buffer<Space>
 
 " The unmaps the default 'k' mapping
 " unmap k
