@@ -1,13 +1,14 @@
 " Settings
 set hud
 set smoothscroll
-set noautofocus " The opposite of autofocus; this setting stops sites from focusing on an input box when they load
+set noautofocus
 set dimhintcharacters
 set autohidescrolling
+let vimcommand  = "emacsclient -c"
 let scrollduration = 300
 let searchlimit = 30
 let scrollstep = 70
-let barposition = "bottom"
+let barposition = "top"
 
 let completionengines = ["google", "amazon", "imdb", "wikipedia"]
 
@@ -19,3 +20,5 @@ let mapleader = " "
 " Mappings
 map <Leader>r reloadTabUncached
 map <Leader>x :restore<Space>
+" unmap <Leader>e
+imap <C-e> editWithVim
