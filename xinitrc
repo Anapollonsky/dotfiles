@@ -6,6 +6,7 @@ dunst&
 blueberry&
 taffybar&
 nm-applet&
+~/dotfiles/cvim_server.py &
 source ~/.localxinitrc
 xhost +local:
 xrdb ~/.Xresources
