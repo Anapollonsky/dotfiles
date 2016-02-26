@@ -11,6 +11,7 @@ let scrollstep = 70
 let barposition = "top"
 
 let completionengines = ["google", "amazon", "imdb", "wikipedia"]
+let searchalias w = "wikipedia"
 
 " blacklists prefixed by '@' act as a whitelist
 let blacklists = ["https://mail.google.com/*", "*://mail.google.com/*", "@https://mail.google.com/mail/*"]
