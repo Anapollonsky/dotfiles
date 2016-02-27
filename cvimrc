@@ -16,10 +16,11 @@ let searchalias w = "wikipedia"
 " blacklists prefixed by '@' act as a whitelist
 let blacklists = ["https://mail.google.com/*", "*://mail.google.com/*", "@https://mail.google.com/mail/*"]
 
-let mapleader = " "
 
 " Mappings
-map <Leader>r reloadTabUncached
-map <Leader>x :restore<Space>
-" unmap <Leader>e
 imap <C-e> editWithVim
+
+" Leader mappings
+" let mapleader = " "
+" map <Leader>r reloadTabUncached
+" map <Leader>x :restore<Space>
