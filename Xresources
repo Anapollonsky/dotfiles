@@ -24,21 +24,24 @@ URxvt*cursorBlink: true
 URxvt.secondaryScreen: 1
 URxvt.secondaryScroll: 0
 
+Urxvt.saveLines: 4096
+
 URxvt.perl-lib: /usr/lib64/urxvt/perl/
-URxvt.perl-ext-common: keyboard-select,clipboard,url-select
-! Selection tools for urxvt. Requires keyboard-select from urxvt-perls
+URxvt.perl-ext-common: default,keyboard-select,url-select,confirm-paste,eval
+! keyboard-select from urxvt-perls
 URxvt.keysym.M-Escape: perl:keyboard-select:activate
-
-! Allow proper copy/paste. Requires clipboard from urxvt-perls
-URxvt.keysym.M-w:   perl:clipboard:copy
-URxvt.keysym.M-y:   perl:clipboard:paste
-URxvt.keysym.M-C-y: perl:clipboard:paste_escaped
-
-! Handle URLs from the terminal. Requires url-select from urxvt--perls
+URxvt.keysym.M-s: perl:keyboard-select:search
+! url-select from urxvt-perls
 URxvt.keysym.M-u: perl:url-select:select_next
+URxvt.url-select.launcher: /usr/bin/google-chrome-stable
+URxvt.url-select.underline: true
+! custom eval
+Urxvt.keysym.M-g: eval: scroll_to_top
+Urxvt.keysym.M-G: eval: scroll_to_bottom
 
 ! This will cause the shell to be started as a login shell, like the option -ls.
 URxvt*loginShell: true
+
 
 ! color replacement
 ! red
