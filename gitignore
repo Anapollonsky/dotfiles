@@ -1,0 +1,7 @@
+# Tag files:
+*GTAGS
+*GRTAGS
+*GPATH
+
+# Emacs undo tree
+*~undo-tree~
