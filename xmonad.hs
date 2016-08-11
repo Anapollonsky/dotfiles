@@ -17,9 +17,7 @@
 
 import qualified Data.Map as M
 import qualified XMonad.StackSet as W
-import qualified Data.List as L
 import XMonad
-import XMonad.Prompt
 import XMonad.Actions.PhysicalScreens
 import XMonad.Actions.Navigation2D
 import XMonad.Hooks.DynamicLog
@@ -37,7 +35,6 @@ import XMonad.Layout.Reflect
 import XMonad.Actions.WindowBringer
 import XMonad.Actions.WindowGo
 import XMonad.Actions.WorkspaceNames
-import XMonad.Util.Run
 import XMonad.Util.WorkspaceCompare
 
 import XMonad.Hooks.EwmhDesktops        (ewmh)

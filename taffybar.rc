@@ -1,15 +1,27 @@
+style "taffybar-default" {
+  color["black"] = "#000000"
+  color["white"] = "#ffffff"
+  color["green"] = "#00ff00"
+  color["red"]   = "#ff0000"
 
-style "default" {
-    bg[NORMAL]   = "#101020"
-    fg[NORMAL]   = "#dcdcdc"
-    text[NORMAL] = "#dcdcdc"
+  bg[NORMAL]   = "#000000"
+  fg[NORMAL]   = "#dcdcdc"
+  text[NORMAL] = "#dcdcdc" 
+  fg[PRELIGHT] = @green
+  bg[PRELIGHT] = @black
 }
 
-style "notification-button" = "default" {
-    text[NORMAL] = "#FF0000"
-    fg[NORMAL]   = "#FF0000"
+style "taffybar-active-window" = "taffybar-default" {
+  fg[NORMAL] = @green
 }
 
-widget "Taffybar*" style "default"
-widget "*NotificationCloseButton" style "notification-button"
+style "taffybar-notification-button" = "taffybar-default" {
+  text[NORMAL] = @red
+  fg[NORMAL]   = @red
+}
+
+widget "Taffybar*" style "taffybar-default"
+widget "Taffybar*WindowSwitcher*label" style "taffybar-active-window"
+widget "*NotificationCloseButton" style "taffybar-notification-button"
+
 gtk-font-name="Deja Vu Sans Mono 12"
