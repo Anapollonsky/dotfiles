@@ -1,13 +1,13 @@
-mpd ~/.config/mpdconf&
+#mpd ~/.config/mpdconf&
 compton&
 xscreensaver -no-splash &
 urxvtd&
 dunst&
-blueberry&
+#blueberry&
 taffybar&
 nm-applet&
 ~/dotfiles/cvim_server.py &
-source ~/.localxinitrc
+#source ~/.localxinitrc
 xhost +local:
 xrdb ~/.Xresources
 feh --randomize --bg-fill ~/dotfiles/wallpapers/*

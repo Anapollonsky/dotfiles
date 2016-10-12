@@ -38,7 +38,7 @@ import XMonad.Actions.WorkspaceNames
 import XMonad.Util.WorkspaceCompare
 
 import XMonad.Hooks.EwmhDesktops        (ewmh)
-import System.Taffybar.Hooks.PagerHints (pagerHints)
+--import System.Taffybar.Hooks.PagerHints (pagerHints)
 
 
 main = do
@@ -47,7 +47,7 @@ main = do
     -- conkybar <- spawnPipe "sleep 1 && conky | dzen2 -ta l -h 22 -x 970 -w 796"
     -- spawn "sleep 1 && stalonetray --background black --geometry 7x1+1766 --icon-size 22 &"
     -- spawn "sleep 1 && nm-applet &"
-    xmonad $ withUrgencyHook NoUrgencyHook $ pagerHints $ ewmh
+    xmonad $ withUrgencyHook NoUrgencyHook $ ewmh
            $ def
         {
 -------------------- basics
