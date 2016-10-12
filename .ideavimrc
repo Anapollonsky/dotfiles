@@ -1,0 +1,16 @@
+imap fd <Esc>
+
+set surround
+
+let mapleader = " "
+nmap <leader><leader> :action AceJumpAction<CR>
+map <c-s> :action BrowseWordAtCaretPlugin.Next<CR>
+map <c-s> :action BrowseWordAtCaretPlugin.Next<CR>
+map <c-r> :action BrowseWordAtCaretPlugin.Previous<CR>
+map <c-r> :action BrowseWordAtCaretPlugin.Previous<CR>
+
+
+" nnoremap <leader>orr $Replace<CR>
+" unmap <leader>
+" nnoremap <leader><leader> :action AceJumpAction<CR>
+
