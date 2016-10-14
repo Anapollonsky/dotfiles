@@ -37,17 +37,10 @@ import XMonad.Actions.WindowGo
 import XMonad.Actions.WorkspaceNames
 import XMonad.Util.WorkspaceCompare
 
-import XMonad.Hooks.EwmhDesktops        (ewmh)
---import System.Taffybar.Hooks.PagerHints (pagerHints)
-
+import XMonad.Config.Kde
 
 main = do
-    -- spawn "pkill nm-applet;"
-    -- xmonadbar <- spawnPipe "sleep 1 && dzen2 -ta l -h 22 -w 970"
-    -- conkybar <- spawnPipe "sleep 1 && conky | dzen2 -ta l -h 22 -x 970 -w 796"
-    -- spawn "sleep 1 && stalonetray --background black --geometry 7x1+1766 --icon-size 22 &"
-    -- spawn "sleep 1 && nm-applet &"
-    xmonad $ withUrgencyHook NoUrgencyHook $ ewmh
+    xmonad kde4Config $ withUrgencyHook NoUrgencyHook 
            $ def
         {
 -------------------- basics
@@ -58,7 +51,7 @@ main = do
         , borderWidth = 1
 
 -------------------- dzen
-        , manageHook = manageDocks <+> manageHook def
+        , manageHook = manageHook kdeConfig <+> manageHook def
         , layoutHook = avoidStruts myLayouts
         , logHook = workspaceNamesPP dzenPP
                         {ppCurrent = dzenColor "#AAEE33" "" . pad
