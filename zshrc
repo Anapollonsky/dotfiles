@@ -15,5 +15,7 @@ if [ -n "$INSIDE_EMACS" ]; then
     print -P "\033AnSiTc %d"
 fi
 
+fpath=(~/dotfiles/zsh/completion $fpath)
+autoload -Uz compinit && compinit -i
 alias ec="emacsclient -nw"
 source ~/.profile
