@@ -47,7 +47,9 @@ main = do
     -- conkybar <- spawnPipe "sleep 1 && conky | dzen2 -ta l -h 22 -x 970 -w 796"
     -- spawn "sleep 1 && stalonetray --background black --geometry 7x1+1766 --icon-size 22 &"
     -- spawn "sleep 1 && nm-applet &"
-    xmonad $ withUrgencyHook NoUrgencyHook $ ewmh
+    xmonad $ withUrgencyHook NoUrgencyHook
+           $ ewmh
+           $ docks
            $ def
         {
 -------------------- basics
@@ -58,7 +60,6 @@ main = do
         , borderWidth = 1
 
 -------------------- dzen
-        , manageHook = manageDocks <+> manageHook def
         , layoutHook = avoidStruts myLayouts
         , logHook = workspaceNamesPP dzenPP
                         {ppCurrent = dzenColor "#AAEE33" "" . pad
