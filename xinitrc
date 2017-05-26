@@ -1,6 +1,5 @@
 #mpd ~/.config/mpdconf&
 compton&
-xscreensaver -no-splash &
 urxvtd&
 dunst&
 #blueberry&
@@ -11,5 +10,7 @@ nm-applet&
 xhost +local:
 xrdb ~/.Xresources
 feh --randomize --bg-fill ~/dotfiles/wallpapers/*
+setxkbmap -option ctrl:nocaps
 xcape -e 'Control_L=Escape'
+xscreensaver -no-splash &
 exec xmonad
