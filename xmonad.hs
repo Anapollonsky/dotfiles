@@ -105,24 +105,11 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
         , ((0, xK_Print), spawn "scrot -e 'mv $f ~/screenshots/'") -- printscreen = screenshot of everything. screenshot reqs "scrot"
         , ((modm, xK_a), runOrRaise "emacs" (className =? "Emacs")) -- Go to window if it exists, or open new one.
         , ((modm .|. shiftMask, xK_a), spawn "emacsclient -c") -- emacsclient
-        -- , ((modm, xK_s), runOrRaise "firefox" (className =? "Firefox" <||> className =? "Firefox-bin" <||> className =? "Navigator"))
         , ((modm, xK_s), runOrRaise "google-chrome-stable" (className =? "Firefox" <||> className =? "Firefox-bin" <||> className =? "Navigator"))
         , ((modm .|. shiftMask, xK_s), spawn "google-chrome-stable")
         , ((modm, xK_d), spawn "rofi -show run")
         , ((modm .|. shiftMask, xK_d), spawn "dmenu_run")
         -- , ((modm .|. shiftMask, xK_r), renameWorkspace defaultXPConfig) -- Rename a workspace
-
-          -- MPD commands. Requires MPD/Mopidy running with MPC installed.
-          -- Based on ncmpcpp keybindings.
-        , ((modm, xK_p), spawn "mpc toggle")
-        , ((modm .|. shiftMask, xK_period), spawn "mpc next")
-        , ((modm .|. shiftMask, xK_comma ), spawn "mpc prev")
-        , ((modm, xK_z), spawn "mpc random")
-        , ((modm .|. shiftMask, xK_z), spawn "mpc shuffle")
-        -- , ((modm .|. shiftMask, xK_r), spawn "mpc repeat")
-        , ((modm .|. shiftMask, xK_y), spawn "mpc single")
-        , ((modm .|. shiftMask, xK_equal), spawn "mpc volume +5")
-        , ((modm, xK_minus), spawn "mpc volume -5")
 
          -- Bring/Goto open windows
         , ((modm, xK_g), gotoMenu' "rofi_dmenu")
