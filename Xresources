@@ -70,12 +70,8 @@ xterm*faceName: DejaVu Sans Mono
 xterm*faceSize: 13
 
 !!! Rofi 
-rofi.bg: #181830
-rofi.bgalt: #282840
-rofi.bc: #DDDDFF
-rofi.fg: #DDDDFF
-rofi.hlbg: #505070
-rofi.hlfg: #EEEEFF
+rofi.color-normal: #181830,#DDDDFF,#282840,#505070,#EEEEFF
+rofi.color-window: #181830,#DDDDFF,#282840
 
 rofi.font: DejaVu Sans Mono 12
 rofi.opacity: 90
