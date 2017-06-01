@@ -35,6 +35,7 @@ import XMonad.Layout.Reflect
 import XMonad.Actions.WindowBringer
 import XMonad.Actions.WindowGo
 import XMonad.Actions.WorkspaceNames
+import XMonad.Actions.UpdatePointer
 import XMonad.Util.WorkspaceCompare
 
 import XMonad.Hooks.EwmhDesktops        (ewmh)
@@ -65,7 +66,7 @@ main = do
                         , ppHidden = dzenColor "#558855" "" . pad
                         , ppHiddenNoWindows = const ""
                         , ppUrgent = dzenColor "yellow" "red" . pad . dzenStrip -- urgency hook
-                        } >>= dynamicLogWithPP
+                        } >>= dynamicLogWithPP >> updatePointer (0.5, 0.5) (0, 0)
         , startupHook = setWMName "LG3D"
 -------------------- other
         , workspaces = myWorkspaces
