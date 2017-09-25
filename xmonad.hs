@@ -49,7 +49,7 @@ main = do
            $ def
         {
 -------------------- basics
-          terminal = "urxvtc"
+          terminal = "termite"
         , modMask = mod4Mask -- windows as mod key
         , focusedBorderColor = "#AAAAFF"
         , normalBorderColor = "#222255"
@@ -101,7 +101,7 @@ instance Transformer TABBED Window where
 -------------------- keybindings
 myKeys conf@(XConfig {XMonad.modMask = modm}) =
   M.fromList $ [ -- run stuff
-          ((modm .|. shiftMask, xK_l), spawn "xscreensaver-command -lock") -- super+shift+l = lock
+          ((modm .|. shiftMask, xK_l), spawn "gnome-screensaver-command --lock") -- super+shift+l = lock
         , ((modm, xK_Print), spawn "sleep 0.2; scrot -s -e 'mv $f ~/screenshots/'") -- super + printscreen = screenshot of window
         , ((0, xK_Print), spawn "scrot -e 'mv $f ~/screenshots/'") -- printscreen = screenshot of everything. screenshot reqs "scrot"
         , ((modm, xK_a), runOrRaise "emacs" (className =? "Emacs")) -- Go to window if it exists, or open new one.

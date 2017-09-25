@@ -15,7 +15,11 @@ if [ -n "$INSIDE_EMACS" ]; then
     print -P "\033AnSiTc %d"
 fi
 
+export FZF_DEFAULT_OPTS='--height 40% --reverse --margin 0%,2%'
+alias zh='fc -ln -99999 | fzf | read command; eval $command'
 fpath=(~/dotfiles/zsh/completion $fpath)
 autoload -Uz compinit && compinit -i
-alias ec="emacsclient -nw"
+alias ec="TERM=xterm;emacsclient -nw"
 source ~/.profile
+
+setopt +o nomatch

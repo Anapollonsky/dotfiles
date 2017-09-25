@@ -1,19 +1,20 @@
 [options]
 font = DejaVu Sans Mono 12 
 search_wrap = true
-cursor_shape = ibeam
-cursor = #00BB00
+#cursor_shape = ibeam
 mouse_autohide = true
 
 
 [colors]
+cursor = #BBBB00
 foreground = #ddddff
-background = rgba(5, 5, 13, 0.97)
+background = #171722
+highlight = #343450
 
 ### color replacement
 # red
-color1 = #ff2222
-color9 = #ff2222
+color1 = #ff7766
+color9 = #ff7766
 # green
 color2 = #32cd32
 color10 = #32cd32
@@ -29,3 +30,8 @@ color13 = #9070e0
 # cyan
 color6 = #00bfff
 color14 = #00bfff
+
+[hints]
+font = DejaVu Sans Mono 12 
+foreground = #DDDDFF
+background = #303042
