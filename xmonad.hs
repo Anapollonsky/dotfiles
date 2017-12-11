@@ -39,10 +39,21 @@ import XMonad.Actions.UpdatePointer
 import XMonad.Util.WorkspaceCompare
 
 import XMonad.Hooks.EwmhDesktops        (ewmh)
+
+import qualified DBus as D
+import qualified DBus.Client as D
+import qualified Codec.Binary.UTF8.String as UTF8
+
 --import System.Taffybar.Hooks.PagerHints (pagerHints)
 
 
 main = do
+
+    dbus <- D.connectSession
+    -- Request access to the DBus name
+    D.requestName dbus (D.busName_ "org.xmonad.Log")
+        [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
+
     xmonad $ withUrgencyHook NoUrgencyHook
            $ ewmh
            $ docks
@@ -57,16 +68,7 @@ main = do
 
 -------------------- dzen
         , layoutHook = avoidStruts myLayouts
-        , logHook = workspaceNamesPP dzenPP
-                        {ppCurrent = dzenColor "#AAEE33" "" . pad
-                        , ppVisible = dzenColor "#BBBBBB" "" . pad
-                        , ppTitle = dzenColor "#AAEE33" "" . shorten 80
-                        , ppLayout = dzenColor "orange" "" . pad
-                        , ppSort = getSortByTag
-                        , ppHidden = dzenColor "#558855" "" . pad
-                        , ppHiddenNoWindows = const ""
-                        , ppUrgent = dzenColor "yellow" "red" . pad . dzenStrip -- urgency hook
-                        } >>= dynamicLogWithPP >> updatePointer (0.5, 0.5) (0, 0)
+        , logHook =  dynamicLogWithPP (myLogHook dbus) >> updatePointer (0.5, 0.5) (0, 0)
         , startupHook = setWMName "LG3D"
 -------------------- other
         , workspaces = myWorkspaces
@@ -74,6 +76,45 @@ main = do
         }
 
 
+-- Override the PP values as you would otherwise, adding colors etc depending
+-- on  the statusbar used
+myLogHook :: D.Client -> PP
+myLogHook dbus = def { ppOutput = dbusOutput dbus }
+
+-- Emit a DBus signal on log updates
+dbusOutput :: D.Client -> String -> IO ()
+dbusOutput dbus str = do
+    let signal = (D.signal objectPath interfaceName memberName) {
+            D.signalBody = [D.toVariant $ UTF8.decodeString str]
+        }
+    D.emit dbus signal
+  where
+    objectPath = D.objectPath_ "/org/xmonad/Log"
+    interfaceName = D.interfaceName_ "org.xmonad.Log"
+    memberName = D.memberName_ "Update"
+
+--  myLogHook :: D.Client -> PP
+-- myLogHook dbus = def
+--     { ppOutput = dbusOutput dbus
+--     , ppCurrent = wrap ("%{B" ++ bg2 ++ "} ") " %{B-}"
+--     , ppVisible = wrap ("%{B" ++ bg1 ++ "} ") " %{B-}"
+--     , ppUrgent = wrap ("%{F" ++ red ++ "} ") " %{F-}"
+--     , ppHidden = wrap " " " "
+--     , ppWsSep = ""
+--     , ppSep = " : "
+--     , ppTitle = shorten 40
+--     }
+ 
+--  workspaceNamesPP dzenPP
+--                         {ppCurrent = dzenColor "#AAEE33" "" . pad
+--                         , ppVisible = dzenColor "#BBBBBB" "" . pad
+--                         , ppTitle = dzenColor "#AAEE33" "" . shorten 80
+--                         , ppLayout = dzenColor "orange" "" . pad
+--                         , ppSort = getSortByTag
+--                         , ppHidden = dzenColor "#558855" "" . pad
+--                         , ppHiddenNoWindows = const ""
+--                         , ppUrgent = dzenColor "yellow" "red" . pad . dzenStrip -- urgency hook
+--                         }  
 -------------------- workspaces
 myWorkspaces = withScreens 3 ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 
@@ -144,6 +185,6 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) =
          , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]
          ]
      ++ [((modm .|. mask, key), f sc)
-        | (key, sc) <- zip [xK_w, xK_e] [0..]
+        | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
         , (f, mask) <- [(viewScreen, 0), (sendToScreen, shiftMask)]
         ]
