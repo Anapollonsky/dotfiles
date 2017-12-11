@@ -1,12 +1,12 @@
 urxvtd&
-dunst&
-gnome-screensaver &
-~/.cabal/bin/taffybar&
-nm-applet&
-~/dotfiles/cvim_server.py &
-source ~/.localxinitrc
-xhost +local:
-feh --randomize --bg-fill ~/dotfiles/wallpapers/*
-setxkbmap -option ctrl:nocaps
-xcape -e 'Control_L=Escape'
-xrdb ~/.Xresources
+#dunst&
+#gnome-screensaver &
+#~/.cabal/bin/taffybar&
+#nm-applet&
+#~/dotfiles/cvim_server.py &
+#source ~/.localxinitrc
+#xhost +local:
+#feh --randomize --bg-fill ~/dotfiles/wallpapers/*
+#setxkbmap -option ctrl:nocaps
+#xcape -e 'Control_L=Escape'
+#xrdb ~/.Xresources
