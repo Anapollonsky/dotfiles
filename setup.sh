@@ -10,7 +10,7 @@ HOME_DIR=$(getent passwd $SUDO_USER | cut -d: -f6)
 SCRIPT_PATH=$(readlink -f "$0")
 SCRIPT_DIR=$(dirname "$SCRIPT_PATH")
 
-mkdir -p $HOME_DIR/.config/{dunst,termite,mopidy,taffybar}
+mkdir -p $HOME_DIR/.config/{dunst,termite,mopidy,taffybar,polybar}
 mkdir -p $HOME_DIR/.xmonad
 
 # Associative array mapping each dotfile to its destination.
@@ -31,6 +31,8 @@ file_dest_map=($SCRIPT_DIR/zshrc $HOME_DIR/.zshrc
                $SCRIPT_DIR/Xresources $HOME_DIR/.Xresources
                $SCRIPT_DIR/conkyrc $HOME_DIR/.conkyrc
                $SCRIPT_DIR/dunstrc $HOME_DIR/.config/dunst/dunstrc
+               $SCRIPT_DIR/polybar/config $HOME_DIR/.config/polybar/config
+               $SCRIPT_DIR/polybar/usb.sh$HOME_DIR/.config/polybar/usb.sh
                $SCRIPT_DIR/rofi_dmenu /usr/bin/rofi_dmenu # Messy
                $SCRIPT_DIR/taffybar.hs $HOME_DIR/.config/taffybar/taffybar.hs
                $SCRIPT_DIR/taffybar.rc $HOME_DIR/.config/taffybar/taffybar.rc
