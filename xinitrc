@@ -1,16 +1,14 @@
-#mpd ~/.config/mpdconf&
-compton&
-urxvtd&
+source ~/.localxinitrc
 dunst&
-#blueberry&
-taffybar&
 nm-applet&
+polybar main&
 ~/dotfiles/cvim_server.py &
-#source ~/.localxinitrc
 xhost +local:
 xrdb ~/.Xresources
 feh --randomize --bg-fill ~/dotfiles/wallpapers/*
 setxkbmap -option ctrl:nocaps
 xcape -e 'Control_L=Escape'
-xscreensaver -no-splash &
+gnome-screensaver &
 exec xmonad
+# exec twm
+
