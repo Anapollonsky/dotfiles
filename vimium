@@ -1,0 +1,11 @@
+# Insert your preferred key mappings here.
+
+unmapAll
+map j scrollDown
+map k scrollUp
+map yy copyCurrentUrl
+map x removeTab
+map X restoreTab
+map d scrollPageDown
+map u scrollPageUp
+map T Vomnibar.activateTabSelection
