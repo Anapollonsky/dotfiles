@@ -1,6 +1,8 @@
 # Insert your preferred key mappings here.
 
 unmapAll
+map f LinkHints.activateMode
+map F LinkHints.activateModeToOpenInNewTab
 map j scrollDown
 map k scrollUp
 map yy copyCurrentUrl
@@ -9,3 +11,4 @@ map X restoreTab
 map d scrollPageDown
 map u scrollPageUp
 map T Vomnibar.activateTabSelection
+map O Vomnibar.activateInNewTab
